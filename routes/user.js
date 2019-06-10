@@ -39,6 +39,10 @@ router.post('/', [
             if(!req.body.profileImage){
                 profileImage = gravatar.url(req.body.email, { s:'100', r:'pg', d:'robohash'});
             }
+            let interests = [];
+            if(req.body.interests){
+                interests = req.body.interests.split(',').map(interest => interest.trim());
+            }
             
             //user object 
             const user = new User({
@@ -46,7 +50,10 @@ router.post('/', [
                 lastName:req.body.lastName,
                 email:req.body.email,
                 password:hashedpwd,
-                profileImage: profileImage
+                bio:req.body.bio,
+                interests: interests,
+                profileImage: profileImage,
+                location:req.body.location
             });
             await user.save( err => console.log(err));
             
@@ -64,5 +71,28 @@ router.post('/', [
             res.status(500).send("Server Error");
         }
 });
+
+
+//@Route -- POST user 
+//@Desc -- To register a new user and returns JWT token
+//@type -- Public
+
+
+
+router.get('/', async(req,res)=>{
+    try{
+        const users = await User.find();
+        if(!users){ return res.status(400).json({msg:"No users found"})}
+        res.json({users});
+    }catch(err){
+        console.error(err.message);
+        res.status(500).send("Server Error");
+    }
+})
+
+
+
+
+
 
 module.exports = router;
