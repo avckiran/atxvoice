@@ -11,35 +11,39 @@ const jwt = require('jsonwebtoken');
 const {check, validationResult} = require('express-validator/check');
 const auth = require('../middleware/auth');
 
-//@Route -- Delete Posts
-//@Desc -- To delete the posts (archive in DeletedPosts model)
-//@Type -- Private (authorized)
+router.get('/',(req,res)=>{
+    res.send("test route");
+});
 
-router.delete('/:id', auth, async(req,res)=>{
-
+//Delete comment Route
+router.delete('/:post_id/comment/:comment_id', auth, async(req,res)=>{
     try{
-        const post = await Posts.findById(req.params.id);
-        if(!post) { return res.status(400).json({msg:"Post not found!"})}
-        if(post.user.toString() !== req.user.id){ return res.status(400).json({msg:"User is not authorized"})}
-        const { title, content, cover_img, user, user_email, likes, comments} = post;
-        const archivedPost = new DeletedPosts({
-            title,
-            content,
-            cover_img,
-            user,
-            user_email,
-            likes,
-            comments
-        });
-        await archivedPost.save();
-        await Posts.findByIdAndRemove(req.params.id);
-        res.json({msg:"Post deleted successfully"})
-
+        const post = await Posts.findById(req.params.post_id);
+        if(!post){return res.status(404).json({msg:"Post not found"})}
+        //Get the index of the comment 
+        const commentIndex = post.comments.findIndex(comment => comment.id === req.params.comment_id);
+        if((post.comments[commentIndex].user.toString() || post.user.toString())!== req.user.id) { return res.json({msg:"User is not authorized"})}
+        const user = await User.findById(req.user.id).select('-password');
+        //remove the comment
+        post.comments.splice(commentIndex, 1);
+        await post.save();
+        res.json({msg:"Comment Deleted"})
+        
     }catch(err){
         console.error(err.message);
-        res.status(500).send("Server Error");
+        if(err.kind === 'ObjectId') { return res.status(404).json({msg:"Post not found"})}
+        res.status(500).send("Server error")
     }
-});
+})
+
+
+
+
+
+
+
+
+
 
 
 
