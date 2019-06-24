@@ -1,0 +1,33 @@
+.navbar{
+    border-bottom: 1px solid rgba(0,0,0, 0.1);
+
+}
+
+
+.navbar .nav-link{
+    /* font-weight: bold; */
+    font-size: 0.8rem;
+    /* color: #e74c3c; */
+}
+
+h4 {
+    font-family: quicksand;
+}
+
+
+#head-intro{
+    background:url('./assets/capitol.jpeg');
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-attachment: fixed;
+    min-height: 200px;
+}
+
+#head-intro .dark-overlay{
+    /* position: absolute; */
+    top:0;
+    left:0;
+    width:100%;
+    min-height:200px;
+    background: rgba(0,0,0,0.7)
+}
