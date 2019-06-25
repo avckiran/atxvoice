@@ -1,7 +1,9 @@
 import React from 'react'
 
 
-const Weather = ({weather}) => {
+const Weather = ({weather, location}) => {
+    
+
 
     let icon = weather? weather.icon : 'loading';
     switch(icon){
@@ -20,11 +22,13 @@ const Weather = ({weather}) => {
         default: {icon='fas fa-cloud-sun'; break;}
     }
     
+    const loc_text = location ? (<span> <small>{location.city}, {location.state}</small></span>):(<span></span>)
+
     return (
         weather? (<div>
             <i className={icon}></i>
             <p className="d-inline"> {Math.ceil(weather.temperature?weather.temperature:0)}<sup>o</sup>F </p>
-            <span> <small>Austin,TX</small></span>
+            {loc_text}
         </div>) : (<div></div>)
     
     )

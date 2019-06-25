@@ -2,21 +2,22 @@ import React, {useEffect} from 'react'
 import logo from '../assets/atx-voice-full-logo.png';
 import Weather from './Weather';
 import {connect} from 'react-redux';
-import {getCurrentWeather} from '../actions/weather';
+import {getCurrentWeather, getCity} from '../actions/weather';
 
 
 
-const Navbar = ({weather, getCurrentWeather}) => {
+const Navbar = ({weather, location, getCurrentWeather, getCity}) => {
 
     useEffect(()=>{
             window.navigator.geolocation.getCurrentPosition(
                 position => {
                     const {latitude, longitude} = position.coords;
                     getCurrentWeather(latitude, longitude);
+                    getCity(latitude, longitude);
                 },
                 err => console.log(err)
                 )
-    },[getCurrentWeather])
+    },[getCurrentWeather, getCity])
 
     return (
         <div>
@@ -27,7 +28,7 @@ const Navbar = ({weather, getCurrentWeather}) => {
                             <a href="home" className="navbar-brand"><img src={logo} alt="" className="img-fluid" style={{height:'20px', width:'auto'}}/></a>
                         </div>
                         <div className="pt-1">
-                            <Weather weather={weather.weather}/>
+                            <Weather weather={weather.weather} location={location}/>
                         </div>
                     </div>
 
@@ -49,7 +50,8 @@ const Navbar = ({weather, getCurrentWeather}) => {
 }
 
 const mapStateToProps = state => ({
-    weather:state.weather
+    weather:state.weather,
+    location: state.weather.location
 })
 
-export default connect(mapStateToProps, {getCurrentWeather})(Navbar);
+export default connect(mapStateToProps, {getCurrentWeather, getCity})(Navbar);
