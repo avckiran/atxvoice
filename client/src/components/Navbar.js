@@ -1,7 +1,11 @@
+//Libraries
 import React, {useEffect} from 'react'
-import logo from '../assets/atx-voice-full-logo.png';
-import Weather from './Weather';
 import {connect} from 'react-redux';
+import {Link} from 'react-router-dom';
+//Assets
+import logo from '../assets/atx-voice-full-logo.png';
+//Local components
+import Weather from './Weather';
 import {getCurrentWeather, getCity} from '../actions/weather';
 
 
@@ -38,7 +42,7 @@ const Navbar = ({weather, location, getCurrentWeather, getCity}) => {
                     <div id="navbarNav" className="collapse navbar-collapse">
                         <ul className="navbar-nav ml-auto">
                             <li className="nav-link text-center">Sign in</li>
-                            <li className="nav-link btn btn-outline-dark ml-3">Get Started</li>
+                            <li> <Link to="/signup" className="nav-link btn btn-outline-dark ml-3">Get Started</Link></li>
                         </ul>
                     </div>
 
