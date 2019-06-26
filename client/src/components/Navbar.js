@@ -1,5 +1,5 @@
 //Libraries
-import React, {useEffect} from 'react'
+import React, {useEffect, Fragment} from 'react'
 import {connect} from 'react-redux';
 import {Link} from 'react-router-dom';
 //Assets
@@ -7,10 +7,11 @@ import logo from '../assets/atx-voice-full-logo.png';
 //Local components
 import Weather from './Weather';
 import {getCurrentWeather, getCity} from '../actions/weather';
+import {logout} from '../actions/user';
 
 
 
-const Navbar = ({weather, location, getCurrentWeather, getCity}) => {
+const Navbar = ({weather, location, getCurrentWeather, getCity, isAuthenticated, logout}) => {
 
     useEffect(()=>{
             window.navigator.geolocation.getCurrentPosition(
@@ -22,6 +23,23 @@ const Navbar = ({weather, location, getCurrentWeather, getCity}) => {
                 err => console.log(err)
                 )
     },[getCurrentWeather, getCity])
+
+    // console.log(isAuthenticated);
+
+
+    const guestLinks = (
+        <ul className="navbar-nav ml-auto">
+            <li><Link to="/login" className="nav-link text-dark text-center">Sign in</Link></li>
+            <li> <Link to="/signup" className="nav-link btn btn-outline-dark ml-3">Get Started</Link></li>
+        </ul>
+    )
+
+    const authLinks =(
+        <ul className="navbar-nav ml-auto">
+            <li className="nav-link text-center">Profile</li>
+            <li> <a href="#!" onClick={logout} className="nav-link ml-3">Logout</a></li>
+        </ul>
+    )
 
     return (
         <div>
@@ -39,11 +57,11 @@ const Navbar = ({weather, location, getCurrentWeather, getCity}) => {
                     <button className="navbar-toggler" data-toggle="collapse" data-target="#navbarNav">
                                 <i className="fas fa-bars"></i>
                     </button>
+                   
                     <div id="navbarNav" className="collapse navbar-collapse">
-                        <ul className="navbar-nav ml-auto">
-                            <li className="nav-link text-center">Sign in</li>
-                            <li> <Link to="/signup" className="nav-link btn btn-outline-dark ml-3">Get Started</Link></li>
-                        </ul>
+                        <Fragment>
+                            {isAuthenticated? authLinks: guestLinks}
+                        </Fragment>
                     </div>
 
                 </div>
@@ -55,7 +73,8 @@ const Navbar = ({weather, location, getCurrentWeather, getCity}) => {
 
 const mapStateToProps = state => ({
     weather:state.weather,
-    location: state.weather.location
+    location: state.weather.location,
+    isAuthenticated: state.user.isAuthenticated
 })
 
-export default connect(mapStateToProps, {getCurrentWeather, getCity})(Navbar);
+export default connect(mapStateToProps, {getCurrentWeather, getCity, logout})(Navbar);

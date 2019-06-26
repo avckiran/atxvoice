@@ -2,7 +2,9 @@ import {
     FORM_ALERT,
     USER_REGISTERED,
     USER_LOADED,
-    AUTH_ERROR
+    AUTH_ERROR,
+    LOGOUT,
+    LOGIN_SUCCESS
 } from './types';
 import uuid from 'uuid';
 import axios from 'axios';
@@ -76,5 +78,38 @@ export const loadUser = () => async dispatch => {
 
 }
 
+//Login users
 
+export const login = ({email, password}) => async dispatch => {
+    try{
+        const config = {
+            headers:{'Content-Type': 'application/json'}
+        }
+        const body = JSON.stringify({email, password})
+        
+        const res = await axios.post('/api/user/login', body, config)
+        const errors = res.data.errors;
+            if(!errors){
+                dispatch({
+                    type: LOGIN_SUCCESS,
+                    payload: res.data
+                })
+                dispatch(loadUser());
+            }else{
+                Array.isArray(errors) ? res.data.errors.forEach(error => dispatch(formAlert(error.msg))): dispatch(formAlert(errors))
+            }
+
+    }catch(err){
+        console.log(err);
+    }
+
+}
+
+//Logout action
+
+export const logout = () => async dispatch => {
+    dispatch({
+        type: LOGOUT
+    })
+}
 

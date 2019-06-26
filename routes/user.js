@@ -106,14 +106,14 @@ router.post('/login', [
     //Validating the inputs
     const errors = validationResult(req);
     if(!errors.isEmpty()){
-        return res.status(400).json({errors:errors.array()});
+        return res.json({errors:errors.array()});
     }
     try{
         const {email, password} = req.body;
         const user = await User.findOne({email});
-        if(!user){ res.status(400).json({msg:"Email or Password is not valid"})}
+        if(!user){ res.json({errors:"Email or Password is not valid"})}
         const isMatch = await bcrypt.compare(password, user.password);
-        if(!isMatch){ res.status(400).json({msg:"Email or Password is not valid"})}
+        if(!isMatch){ res.json({errors:"Email or Password is not valid"})}
         //If matches, return JWT token
         const payload = {
             user:{

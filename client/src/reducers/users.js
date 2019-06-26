@@ -1,19 +1,22 @@
 import {
     USER_REGISTERED,
     USER_LOADED,
-    AUTH_ERROR
+    AUTH_ERROR,
+    LOGOUT,
+    LOGIN_SUCCESS
 } from '../actions/types';
 
 const initialState = {
     token: localStorage.getItem('token'),
     isAuthenticated: false,
-    userInfo: null
+    user: null
 };
 
 export default function(state=initialState, action){
     const {type, payload} = action;
 
     switch(type){
+        case LOGIN_SUCCESS:
         case USER_REGISTERED : 
             localStorage.setItem('token', payload.token)
             return{
@@ -29,12 +32,21 @@ export default function(state=initialState, action){
                 userInfo: payload.user
             })
         
-            case AUTH_ERROR: 
+        case AUTH_ERROR: 
                 return({
                     ...state,
                     token: null,
                     isAuthenticated: false
                 })
+            
+        case LOGOUT:
+            localStorage.removeItem('token');
+            return {
+                ...state,
+                token: null,
+                isAuthenticated: false,
+                user: null
+            }
         default: return state
 
     }

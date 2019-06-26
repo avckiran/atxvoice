@@ -1,10 +1,17 @@
-import React, {Fragment} from 'react'
+import React, {Fragment, useEffect} from 'react'
 import Navbar from './Navbar';
 import Header from './Header';
 import BlogsArea from './BlogsArea';
+import {loadUser} from '../actions/user';
+import {connect} from 'react-redux';
 
 
-const Layout = () => {
+const Layout = ({loadUser, isAuthenticated}) => {
+
+    useEffect(() => {
+        if(isAuthenticated) loadUser();
+    },[isAuthenticated,loadUser])
+
     return (
         <Fragment>
             <Navbar />
@@ -24,4 +31,8 @@ const Layout = () => {
     )
 }
 
-export default Layout
+const mapStateToProps = state => ({
+    isAuthenticated: state.user.isAuthenticated
+})
+
+export default connect(mapStateToProps, {loadUser})(Layout)
