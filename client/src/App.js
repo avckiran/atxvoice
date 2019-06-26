@@ -1,9 +1,8 @@
 //Libraries
-import React, {Fragment} from 'react';
+import React from 'react';
 import {Provider} from 'react-redux';
 import {BrowserRouter as Router, Route, Switch} from 'react-router-dom';
 //Local components
-import BlogsArea from './components/BlogsArea';
 import Layout from './components/Layout';
 import store from './store';
 import Signup from './components/Forms/Signup'

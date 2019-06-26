@@ -29,7 +29,7 @@ const Navbar = ({weather, location, getCurrentWeather, getCity}) => {
                 <div className="container">
                     <div className="d-flex align-items-center">
                         <div>
-                            <a href="home" className="navbar-brand"><img src={logo} alt="" className="img-fluid" style={{height:'20px', width:'auto'}}/></a>
+                            <Link to="/" className="navbar-brand"><img src={logo} alt="" className="img-fluid" style={{height:'20px', width:'auto'}}/></Link>
                         </div>
                         <div className="pt-1">
                             <Weather weather={weather.weather} location={location}/>

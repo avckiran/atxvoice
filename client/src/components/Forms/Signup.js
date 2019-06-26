@@ -1,51 +1,91 @@
 import React, {Fragment, useState} from 'react'
 import Navbar from '../Navbar'
+import {connect} from 'react-redux';
+import {formAlert, registerUser} from '../../actions/form';
+import Alert from './Alert';
 
-const Signup = () => {
+const Signup = ({formAlert, registerUser, alerts}) => {
 
-    const [formData, setFormData] = useState({submitBtn: 'btn btn-outline-dark btn-block mt-3 disabled'})
+    const [formData, setFormData] = useState({
+        firstName: '',
+        lastName:'',
+        email:'',
+        password:'',
+        password2:'',
+        bio:'',
+        interests:'',
+        picture:'',
+        location:'',
+        submitBtn:false
+    })
     
-    const onChecked = e => {
-        e.target.checked ? setFormData({...formData, submitBtn:'btn btn-outline-dark btn-block mt-3'}) : setFormData({...formData, rulesBtn:'btn btn-outline-dark btn-block mt-3 disabled'})
+    const {password, password2} = formData;
+
+    const onChange = e =>{
+        setFormData({...formData, [e.target.name]:e.target.value})
     }
-    // console.log(btnClass);
+
+    const formSubmit = e => {
+        e.preventDefault();
+        if(password !== password2) {
+            formAlert("Passwords didn't match"); 
+            window.scrollTo(10,30);
+            return null;
+        }
+
+        registerUser(formData);
+        
+    }
+    
+    
+
+    const onRulesAgree = e => {
+        e.target.checked ? setFormData({...formData, submitBtn:true}) 
+        : setFormData({...formData, submitBtn:false})
+    }
+
     return (
-        <>
+        <Fragment>
         <Navbar />
         <div className="container">
-            <div className="row">
+            <div className="row"> 
                 <div className="col-md-8 p-2">
                     <div className="card p-4">
                         <div className="card-body">
                             <h3 className="text-center">Please fill out the form</h3>
                             <hr/>
-                            <form action="">
+                            {alerts.map(alert => (<Alert alert={alert}/>))}
+                          
+
+                            <form onSubmit={e=> formSubmit(e)}>
                                 <div className="row">
                                     <div className="col-md-6">
-                                        <input type="text" className="form-control" placeholder="First Name*" required />
+                                        <input onChange={e=> onChange(e)} type="text" className="form-control mt-3" placeholder="First Name*" name="firstName" required />
                                     </div>
                                     <div className="col-md-6">
-                                        <input type="text" className="form-control" placeholder="Last Name" />
+                                        <input onChange={e=> onChange(e)}  type="text" className="form-control mt-3" placeholder="Last Name" name="lastName"  />
                                     </div>
                                 </div>
-                                <input type="email" className="form-control mt-3" placeholder="Email address*" required/>
-                                <input type="password" className="form-control mt-3" placeholder="Password*" required/>
+                                <input onChange={e=> onChange(e)}  type="email" className="form-control mt-3" placeholder="Email address*" name="email" required />
+                                <input onChange={e=> onChange(e)}  type="password" className="form-control mt-3" placeholder="Password*" name="password" minLength="6" maxLength="20" required/>
                                     <small className="form-text text-muted ml-1 mt-0">must be at least 6 characters</small>
-                                <input type="password" className="form-control mt-3" placeholder="Confirm Password*" required/>
-                                <textarea className="form-control mt-3" placeholder="Tell us a few lines about you!"></textarea>
-                                <input type="text" className="form-control mt-3" placeholder="Your interests"/>
+                                <input onChange={e=> onChange(e)}  type="password" className="form-control mt-3" placeholder="Confirm Password*" name="password2" minLength="6" maxLength="20" required/>
+                                <textarea onChange={e=> onChange(e)}  className="form-control mt-3" placeholder="Tell us a few lines about you!" name="bio"></textarea>
+                                <input onChange={e=> onChange(e)}  type="text" className="form-control mt-3" placeholder="Your interests" name="interests" />
                                     <small className="form-text text-muted ml-1 mt-0">separate by comma</small>
                                 <div className="custom-file mt-3">
-                                    <input type="file" className="custom-file-input"/>
-                                    <label htmlFor="image" class="custom-file-label">Choose a profile picture</label>
+                                    <input onChange={e=> onChange(e)}  type="file" className="custom-file-input" name="picture"/>
+                                    <label htmlFor="image" className="custom-file-label">Choose a profile picture</label>
                                 </div>
                                     <small className="form-text text-muted ml-1 mt-0">max size 3MB</small>
-                                <input type="text" className="form-control mt-3" placeholder="Location"/>
+                                <input onChange={e=> onChange(e)}  type="text" className="form-control mt-3" placeholder="Location" name="location"/>
                                 
                                 <label htmlFor="accept" className="mt-3 ml-4">
-                                    <input type="checkbox" className="form-check-input"/> I agree to the community rules
+                                    <input type="checkbox" 
+                                        className="form-check-input"
+                                        onChange={e => onRulesAgree(e)}/> I agree to the community rules
                                 </label>
-                                <button className={formData.submitBtn}>Submit</button>
+                                <button className='btn btn-outline-dark btn-block mt-3' disabled={!formData.submitBtn}>Submit</button>
                             </form>
                         
 
@@ -74,8 +114,12 @@ const Signup = () => {
             </div>
      
         </div>
-        </>
+        </Fragment>
     )
 }
 
-export default Signup
+const mapStateToProps = state => ({
+    alerts: state.alerts
+})
+
+export default connect(mapStateToProps, {formAlert, registerUser})(Signup);
