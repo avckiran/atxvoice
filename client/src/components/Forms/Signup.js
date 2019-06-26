@@ -1,10 +1,11 @@
 import React, {Fragment, useState} from 'react'
 import Navbar from '../Navbar'
 import {connect} from 'react-redux';
+import {Link, Redirect} from 'react-router-dom';
 import {formAlert, registerUser} from '../../actions/form';
 import Alert from './Alert';
 
-const Signup = ({formAlert, registerUser, alerts}) => {
+const Signup = ({formAlert, registerUser, alerts, isAuthenticated}) => {
 
     const [formData, setFormData] = useState({
         firstName: '',
@@ -32,12 +33,13 @@ const Signup = ({formAlert, registerUser, alerts}) => {
             window.scrollTo(10,30);
             return null;
         }
-
         registerUser(formData);
-        
+       
     }
     
-    
+    if(isAuthenticated){
+       return <Redirect to="/" />
+    }
 
     const onRulesAgree = e => {
         e.target.checked ? setFormData({...formData, submitBtn:true}) 
@@ -54,7 +56,7 @@ const Signup = ({formAlert, registerUser, alerts}) => {
                         <div className="card-body">
                             <h3 className="text-center">Please fill out the form</h3>
                             <hr/>
-                            {alerts.map(alert => (<Alert alert={alert}/>))}
+                            {alerts.map(alert => (<Alert key={alert.id} alert={alert}/>))}
                           
 
                             <form onSubmit={e=> formSubmit(e)}>
@@ -87,8 +89,9 @@ const Signup = ({formAlert, registerUser, alerts}) => {
                                 </label>
                                 <button className='btn btn-outline-dark btn-block mt-3' disabled={!formData.submitBtn}>Submit</button>
                             </form>
-                        
-
+                            <div className="text-center mt-3">
+                            Already have an account? <Link to="/login" > Sign-in </Link>
+                            </div>
 
                         </div>
                     </div>
@@ -119,7 +122,8 @@ const Signup = ({formAlert, registerUser, alerts}) => {
 }
 
 const mapStateToProps = state => ({
-    alerts: state.alerts
+    alerts: state.alerts,
+    isAuthenticated: state.user.isAuthenticated
 })
 
 export default connect(mapStateToProps, {formAlert, registerUser})(Signup);

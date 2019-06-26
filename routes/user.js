@@ -22,14 +22,15 @@ router.post('/', [
     
         const errors = validationResult(req);
         if(!errors.isEmpty()){
-            return res.status(400).json({errors:errors.array()});
+            return res.json({errors:errors.array()});
         }
         try{
 
             //check if user exists
             const existingUser = await User.findOne({email: req.body.email});
             if(existingUser){
-                return res.status(400).json({"msg":"User already exists"});
+                // return res.status(400).json({"msg":"User already exists"});
+                return res.json({"errors":"User already exists"});
             }
             
             //password hashing
