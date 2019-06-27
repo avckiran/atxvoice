@@ -7,11 +7,11 @@ import logo from '../assets/atx-voice-full-logo.png';
 //Local components
 import Weather from './Weather';
 import {getCurrentWeather, getCity} from '../actions/weather';
-import {logout} from '../actions/user';
+import {logout, loadUser} from '../actions/user';
 
 
 
-const Navbar = ({weather, location, getCurrentWeather, getCity, isAuthenticated, logout}) => {
+const Navbar = ({weather, location, getCurrentWeather, getCity, isAuthenticated, logout, loadUser}) => {
 
     useEffect(()=>{
             window.navigator.geolocation.getCurrentPosition(
@@ -21,8 +21,9 @@ const Navbar = ({weather, location, getCurrentWeather, getCity, isAuthenticated,
                     getCity(latitude, longitude);
                 },
                 err => console.log(err)
-                )
-    },[getCurrentWeather, getCity])
+            );
+            if(isAuthenticated)loadUser();
+    },[getCurrentWeather, getCity, loadUser])
 
     // console.log(isAuthenticated);
 
@@ -34,12 +35,50 @@ const Navbar = ({weather, location, getCurrentWeather, getCity, isAuthenticated,
         </ul>
     )
 
-    const authLinks =(
+    // const authLinks =(
+    //     <ul className="navbar-nav ml-auto">
+    //         <li className="nav-item dropdown mr-3">
+    //             <a href="#" className="nav-link dropdown-toggle" data-toggle="dropdown">
+    //                 <i className="fas fa-user mr-2"></i> Welcome John
+    //             </a>
+    //         </li>
+    //         <div className="dropdown-menu">
+    //             <Link to="/me" className="dropdown-item">
+    //                 <i className="fas fa-user-circle"></i> Profile
+    //             </Link>
+                
+    //             <Link to="/me" className="dropdown-item">
+    //                 <i className="fas fa-user-circle"></i> Profile
+    //             </Link>
+    //         </div>
+
+
+    //         {/* <li className="nav-link text-center">Profile</li>
+    //         <li> <a href="#!" onClick={logout} className="nav-link ml-3">Logout</a></li> */}
+
+    //     </ul>
+    // )
+
+
+    const authLinks = (
         <ul className="navbar-nav ml-auto">
-            <li className="nav-link text-center">Profile</li>
-            <li> <a href="#!" onClick={logout} className="nav-link ml-3">Logout</a></li>
-        </ul>
-    )
+            <li className="nav-item dropdown mr-3">
+            <a href="" className="nav-link dropdown-toggle" data-toggle="dropdown">
+                <i className="fas fa-user mr-2"></i> Welcome John
+            </a>
+            <div className="dropdown-menu">
+                <Link to="/me" className="dropdown-item">
+                    <i className="fas fa-user-circle"></i> Profile
+                </Link>
+                
+                <a href="#" onClick={logout} className="dropdown-item">
+                    <i className="fas fa-cog"></i> Logout
+                </a>
+                
+            </div>
+        </li>
+    </ul>
+    );
 
     return (
         <div>
@@ -77,4 +116,4 @@ const mapStateToProps = state => ({
     isAuthenticated: state.user.isAuthenticated
 })
 
-export default connect(mapStateToProps, {getCurrentWeather, getCity, logout})(Navbar);
+export default connect(mapStateToProps, {getCurrentWeather, getCity, logout, loadUser})(Navbar);
