@@ -12,10 +12,11 @@ export default function(state=initialState, action){
             ...state,
             weather: payload
         }
-        case GET_CITY : return {
-            ...state,
-            location: payload
-        }
+        case GET_CITY :
+            return {
+                ...state,
+                location: payload
+            }
         default: return state;
     }
 }

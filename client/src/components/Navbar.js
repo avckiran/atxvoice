@@ -11,7 +11,7 @@ import {logout, loadUser} from '../actions/user';
 
 
 
-const Navbar = ({weather, location, getCurrentWeather, getCity, isAuthenticated, logout, loadUser}) => {
+const Navbar = ({weather, location, getCurrentWeather, getCity, isAuthenticated, logout, loadUser, loading, userInfo}) => {
 
     useEffect(()=>{
             window.navigator.geolocation.getCurrentPosition(
@@ -22,7 +22,7 @@ const Navbar = ({weather, location, getCurrentWeather, getCity, isAuthenticated,
                 },
                 err => console.log(err)
             );
-            if(isAuthenticated)loadUser();
+            if(localStorage.getItem('token')) loadUser();
     },[getCurrentWeather, getCity, loadUser])
 
     // console.log(isAuthenticated);
@@ -34,37 +34,16 @@ const Navbar = ({weather, location, getCurrentWeather, getCity, isAuthenticated,
             <li> <Link to="/signup" className="nav-link btn btn-outline-dark ml-3">Get Started</Link></li>
         </ul>
     )
-
-    // const authLinks =(
-    //     <ul className="navbar-nav ml-auto">
-    //         <li className="nav-item dropdown mr-3">
-    //             <a href="#" className="nav-link dropdown-toggle" data-toggle="dropdown">
-    //                 <i className="fas fa-user mr-2"></i> Welcome John
-    //             </a>
-    //         </li>
-    //         <div className="dropdown-menu">
-    //             <Link to="/me" className="dropdown-item">
-    //                 <i className="fas fa-user-circle"></i> Profile
-    //             </Link>
-                
-    //             <Link to="/me" className="dropdown-item">
-    //                 <i className="fas fa-user-circle"></i> Profile
-    //             </Link>
-    //         </div>
-
-
-    //         {/* <li className="nav-link text-center">Profile</li>
-    //         <li> <a href="#!" onClick={logout} className="nav-link ml-3">Logout</a></li> */}
-
-    //     </ul>
-    // )
+    
 
 
     const authLinks = (
         <ul className="navbar-nav ml-auto">
-            <li className="nav-item dropdown mr-3">
-            <a href="" className="nav-link dropdown-toggle" data-toggle="dropdown">
-                <i className="fas fa-user mr-2"></i> Welcome John
+            <li className="nav-item dropdown mr-3 align-items-center">
+            <a href="#" className="d-inline nav-link dropdown-toggle" data-toggle="dropdown">
+                { (!loading) ? <img className="img-fluid rounded-circle w-25" src={userInfo.profileImage} /> : <i className="fas fa-user" />}
+                        { !loading ? userInfo.firstName : ''}
+   
             </a>
             <div className="dropdown-menu">
                 <Link to="/me" className="dropdown-item">
@@ -99,7 +78,7 @@ const Navbar = ({weather, location, getCurrentWeather, getCity, isAuthenticated,
                    
                     <div id="navbarNav" className="collapse navbar-collapse">
                         <Fragment>
-                            {isAuthenticated? authLinks: guestLinks}
+                            {isAuthenticated && !loading ? authLinks: guestLinks}
                         </Fragment>
                     </div>
 
@@ -113,7 +92,9 @@ const Navbar = ({weather, location, getCurrentWeather, getCity, isAuthenticated,
 const mapStateToProps = state => ({
     weather:state.weather,
     location: state.weather.location,
-    isAuthenticated: state.user.isAuthenticated
+    isAuthenticated: state.user.isAuthenticated,
+    userInfo: state.user.userInfo,
+    loading: state.user.loading
 })
 
 export default connect(mapStateToProps, {getCurrentWeather, getCity, logout, loadUser})(Navbar);
