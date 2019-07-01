@@ -14,7 +14,7 @@ import {logout, loadUser} from '../actions/user';
 const Navbar = ({weather, location, getCurrentWeather, getCity, isAuthenticated, logout, loadUser, loading, userInfo}) => {
 
     useEffect(()=>{
-            window.navigator.geolocation.getCurrentPosition(
+            navigator.geolocation.getCurrentPosition(
                 position => {
                     const {latitude, longitude} = position.coords;
                     getCurrentWeather(latitude, longitude);
@@ -39,21 +39,16 @@ const Navbar = ({weather, location, getCurrentWeather, getCity, isAuthenticated,
 
     const authLinks = (
         <ul className="navbar-nav ml-auto">
-            <li className="nav-item dropdown mr-3 align-items-center">
-            <a href="#" className="d-inline nav-link dropdown-toggle" data-toggle="dropdown">
-                { (!loading) ? <img className="img-fluid w-25" src={userInfo.profileImage} /> : <i className="fas fa-user" />}
-                        { !loading ? userInfo.firstName : ''}
-   
-            </a>
-            <div className="dropdown-menu">
-                <Link to="/me" className="dropdown-item">
-                    <i className="fas fa-user-circle"></i> Profile
-                </Link>
-                
-                <a href="#" onClick={logout} className="dropdown-item">
-                    <i className="fas fa-cog"></i> Logout
-                </a>
-                
+            <li className="nav-item mr-3 align-items-center">
+            <div className="d-flex align-items-center justify-content-center">
+                <div className="text-right">
+                    { (!loading) ? <img className="img-fluid" style={{'width': '30%'}}src={userInfo.profileImage} /> : <i className="fas fa-user" />}
+                </div>
+                <div>
+                    <Link to="/me" className="d-md-inline d-sm-block nav-link text-dark ml-2">{ !loading ? userInfo.firstName : ''}</Link>
+                    <Link to="/" onClick={logout} className="d-md-inline d-sm-block nav-link text-dark ml-2">{ !loading ? 'Logout' : ''}</Link>
+                    {/* <a href="#" onClick={logout} className="dropdown-item"><i className="fas fa-cog"></i> Logout</a> */}
+                </div>
             </div>
         </li>
     </ul>
