@@ -41,7 +41,7 @@ const Navbar = ({weather, location, getCurrentWeather, getCity, isAuthenticated,
         <ul className="navbar-nav ml-auto">
             <li className="nav-item dropdown mr-3 align-items-center">
             <a href="#" className="d-inline nav-link dropdown-toggle" data-toggle="dropdown">
-                { (!loading) ? <img className="img-fluid rounded-circle w-25" src={userInfo.profileImage} /> : <i className="fas fa-user" />}
+                { (!loading) ? <img className="img-fluid w-25" src={userInfo.profileImage} /> : <i className="fas fa-user" />}
                         { !loading ? userInfo.firstName : ''}
    
             </a>

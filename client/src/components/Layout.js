@@ -2,6 +2,7 @@ import React, {Fragment, useEffect} from 'react'
 import Navbar from './Navbar';
 import Header from './Header';
 import BlogsArea from './BlogsArea';
+import TwitterFeed from './TwitterFeed';
 import {loadUser} from '../actions/user';
 import {connect} from 'react-redux';
 
@@ -23,6 +24,7 @@ const Layout = ({loadUser, isAuthenticated}) => {
                     </div>
                     <div className="col-md-3 border-left p-3 d-none d-md-block">
                         <h4>Twitter</h4>
+                        <TwitterFeed />
                     </div>
                 </div>
             </div>
