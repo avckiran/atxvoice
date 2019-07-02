@@ -1,7 +1,6 @@
 import React, {Fragment, useState} from 'react';
 import {Link, Redirect} from 'react-router-dom';
 import {connect} from 'react-redux';
-import Navbar from '../Navbar'
 import {login} from '../../actions/user';
 import Alert from './Alert';
 
@@ -26,7 +25,7 @@ const Login = ({isAuthenticated, alerts, login}) => {
 
     return (
         <Fragment>
-            <Navbar />
+            {/* <Navbar /> */}
             <div className="container mt-2">
                 <div className="d-flex justify-content-center ">
                     <div className="w-auto p-5 mt-5">

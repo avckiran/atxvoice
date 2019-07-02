@@ -51,7 +51,28 @@ router.get('/', async(req,res)=>{
 
 });
 
-//@Router -- Get Posts by Id
+//@Router -- Get Post by Id
+//@Desc -- to get particular post by its id
+//@type -- public
+
+router.get('/:id', async(req,res)=>{
+    try{
+        const post = await Posts.findById(req.params.id);
+        if(!post) return res.json({error:'Post not found'})
+        res.json(post);
+    }catch(err){
+        console.error(err.message);
+        if(!err.kind === 'ObjectId'){
+            return res.json({error:'Post not found'});
+        }
+        res.status(500).send('Server Error');
+    }
+})
+
+
+
+
+//@Router -- Get Posts by user Id
 //@Desc -- To get all posts and statistics for the user. 
 //@Type -- Private
 

@@ -1,5 +1,4 @@
 import React, {Fragment, useState} from 'react'
-import Navbar from '../Navbar'
 import {connect} from 'react-redux';
 import {Link, Redirect} from 'react-router-dom';
 import {formAlert, registerUser} from '../../actions/user';
@@ -48,7 +47,7 @@ const Signup = ({formAlert, registerUser, alerts, isAuthenticated}) => {
 
     return (
         <Fragment>
-        <Navbar />
+        {/* <Navbar /> */}
         <div className="container">
             <div className="row"> 
                 <div className="col-md-8 p-2">

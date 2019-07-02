@@ -8,5 +8,8 @@ export const LOGOUT = 'LOGOUT';
 export const LOGIN_SUCCESS = 'LOGIN_SUCCESS';
 export const GET_TWITTER_FEED = 'GET_TWITTER_FEED';
 export const GET_POSTS = 'GET_POSTS';
+export const GET_POST = 'GET_POST';
+export const REMOVE_CURRENT_POST = 'REMOVE_CURRENT_POST';
+
 
 

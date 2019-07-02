@@ -1,11 +1,10 @@
 import React, {Fragment} from 'react';
 import {connect} from 'react-redux';
-import Navbar from '../Navbar';
 
 const Profile = ({user, loading}) => {
     return(
         <Fragment>
-        <Navbar />
+        {/* <Navbar /> */}
             <div className="container mt-4">
                 TO DO : User profile goes here
             </div>

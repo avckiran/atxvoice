@@ -8,6 +8,8 @@ import store from './store';
 import Signup from './components/Forms/Signup'
 import Login from './components/Forms/Login';
 import Profile from './components/Users/Profile';
+import Navbar from './components/Navbar';
+import Post from './components/Post';
 
 
 const App = () => {
@@ -16,11 +18,13 @@ const App = () => {
     return (
         <Provider store = {store}>
             <Router> 
+            <Navbar />
                 <Switch>
                 <Route exact path="/" component={Layout} />
                 <Route exact path='/signup' component={Signup}/>
                 <Route exact path='/login' component={Login}/>
                 <Route exact path='/me' component={Profile}/>
+                <Route exact path='/post/:id' component={Post} />
                 </Switch>
             </Router>
         </Provider>
