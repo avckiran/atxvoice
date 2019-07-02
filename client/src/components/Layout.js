@@ -23,7 +23,7 @@ const Layout = ({loadUser, isAuthenticated}) => {
                         <BlogsArea />
                     </div>
                     <div className="col-md-3 border-left p-3 d-none d-md-block">
-                        <h4>Twitter</h4>
+                        <h6 className="mb-3">Latest:</h6>
                         <TwitterFeed />
                     </div>
                 </div>

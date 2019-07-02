@@ -7,7 +7,7 @@ const Profile = ({user, loading}) => {
         <Fragment>
         <Navbar />
             <div className="container mt-4">
-                User profile goes here
+                TO DO : User profile goes here
             </div>
         </Fragment>
         
