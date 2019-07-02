@@ -15,6 +15,7 @@
     "gravatar": "^1.8.0",
     "jsonwebtoken": "^8.5.1",
     "mongoose": "^5.5.14",
+    "twitter": "^1.7.1",
     "uuid": "^3.3.2"
   },
   "devDependencies": {

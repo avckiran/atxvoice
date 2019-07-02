@@ -15,8 +15,9 @@ app.get('/', (req,res) =>{
 
 //Route Definitions
 app.use('/api/user', require('./routes/user'));
-app.use('api/test', require('./routes/test'));
-app.use('api/posts', require('./routes/posts'));
+app.use('/api/test', require('./routes/test'));
+app.use('/api/posts', require('./routes/posts'));
+app.use('/api/tweets', require('./routes/tweets'));
 
 
 //Unhandled Route
