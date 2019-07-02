@@ -19,10 +19,14 @@ const BlogsArea = ({posts, getPosts}) => {
                 <div className='m-2'>
                     <h5>{title}</h5>
                     <small className="text-muted">{created_date}</small>
-                    <p>by <span className='p-3'>
-                    <img src={user_profile_img} alt="" style={userImgStyle}/>
-                    {user_name}
-                    </span></p>
+                    <div className="d-flex my-1">
+                        <div className="my-auto">
+                            <img src={user_profile_img} alt="" style={userImgStyle}/>
+                        </div>
+                        <div>
+                            {user_name}
+                        </div>
+                    </div>
                     <Link className="btn btn-outline-dark btn-sm" to={`/post/${id}`}> Read More</Link>
                 </div>
             </div>

@@ -22,8 +22,18 @@ const Post = ({match, getPost, posts}) => {
             {posts.onePost? 
             <div className="mx-5">
                 <div className="p-5 mt-0 mb-4" style={postStyle}> </div>
-                {/* <div className="p-5 mt-0 mb-4"> </div> */}
+                <p className="mb-3 text-right text-danger"> <small>{posts.onePost.createdDate} </small> </p>
                 <h2 className="mb-3 text-dark"> {posts.onePost.title} </h2>
+                <div className="d-flex mb-3">
+                    <div class="my-auto">
+                        <img src={posts.onePost.user.profileImage} width="50px" alt="" className="img-fluid"/>
+                    </div>
+                    <div className="my-auto">
+                        <span>
+                        {`${posts.onePost.user.firstName} ${posts.onePost.user.lastName} `}
+                        </span>
+                    </div>
+                </div>
                 <p className="text-secondary text-justify">{posts.onePost.content}</p>
                 <p className="text-secondary text-justify">{posts.onePost.content}</p>
             </div> 

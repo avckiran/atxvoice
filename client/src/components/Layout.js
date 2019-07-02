@@ -30,7 +30,6 @@ const Layout = ({loadUser, isAuthenticated, getPosts, unloadCurrentPost}) => {
                 </div>
             </div>
         </Fragment>
-        
     )
 }
 

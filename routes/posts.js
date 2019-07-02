@@ -57,7 +57,7 @@ router.get('/', async(req,res)=>{
 
 router.get('/:id', async(req,res)=>{
     try{
-        const post = await Posts.findById(req.params.id);
+        const post = await Posts.findById(req.params.id).populate('user', ['firstName','lastName','profileImage']);
         if(!post) return res.json({error:'Post not found'})
         res.json(post);
     }catch(err){
