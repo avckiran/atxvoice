@@ -7,4 +7,6 @@ export const AUTH_ERROR = 'AUTH_ERROR';
 export const LOGOUT = 'LOGOUT';
 export const LOGIN_SUCCESS = 'LOGIN_SUCCESS';
 export const GET_TWITTER_FEED = 'GET_TWITTER_FEED';
+export const GET_POSTS = 'GET_POSTS';
+
 

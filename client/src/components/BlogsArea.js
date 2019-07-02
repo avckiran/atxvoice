@@ -1,15 +1,55 @@
-import React from 'react'
+import React, {useEffect, Fragment} from 'react';
+import {connect} from 'react-redux';
+import {getPosts} from '../actions/posts';
 
-const BlogsArea = () => {
+const BlogsArea = ({posts, getPosts}) => {
+
+    useEffect(() => {
+        getPosts();
+    },[getPosts])
+
+    // To display a media object type cards
+    const smallCard = (cover_img, title, created_date, user_name, user_profile_img) => {
+        return(
+            <div className="d-flex m-3">
+                <div className='m-2'> 
+                    <img src={cover_img} alt="" className="img-fluid" style={imgStyle}/>
+                </div>
+                <div className='m-2'>
+                    <h5>{title}</h5>
+                    <small className="text-muted">{created_date}</small>
+                </div>
+            </div>
+        )
+    }
+
+    const imgStyle = {
+        width: 'auto',
+        height: 'auto',
+        maxWidth: '150px',
+        cursor: 'pointer'
+    }
+
+
     return (
         <div>
-            
-            <h4>Blog Title is so big that it would span half the screen</h4>
-                        <p className="">
-                            Lorem ipsum dolor sit amet consectetur adipisicing elit. Expedita autem ullam similique reiciendis animi illo, a assumenda sequi rem ratione labore voluptas sapiente vel adipisci soluta, veniam tenetur optio incidunt perferendis quas ad velit nam ipsum. Molestias sunt, quaerat omnis dolor laborum ab fugiat ex, fugit aliquam magni ea, laudantium temporibus voluptatem nam. Accusamus aperiam perferendis suscipit sapiente a sunt consequuntur quia quae architecto corrupti, in optio, dolorum, ex earum. Omnis, velit? Blanditiis, deleniti tenetur. Incidunt odio sequi tempora quasi facere eaque officia. Alias voluptates repudiandae accusantium doloribus qui, enim tempora at est nemo, nostrum debitis neque. Aperiam, eligendi sit?
-                        </p>
+            {posts.loading? <div> Loading </div>: 
+                <Fragment>
+                {posts.posts.map(post => (
+                    smallCard(post.cover_img, post.title, post.createdDate, post.user.firstName, post.user.profileImage)
+                ))}
+                
+                </Fragment>
+            }
         </div>
     )
+
+
+    
 }
 
-export default BlogsArea
+const mapStateToProps = state => ({
+    posts: state.posts
+})
+
+export default connect(mapStateToProps, {getPosts})(BlogsArea);
