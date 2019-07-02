@@ -1,13 +1,29 @@
-import React from 'react';
+import React, {useEffect} from 'react';
+import {connect} from 'react-redux';
+import {getTwitterFeed} from '../actions/twitter';
 // import { TwitterTimelineEmbed, TwitterShareButton, TwitterFollowButton, TwitterHashtagButton, TwitterMentionButton, TwitterTweetEmbed, TwitterMomentShare, TwitterDMButton, TwitterVideoEmbed, TwitterOnAirButton } from 'react-twitter-embed';
 import { TwitterTweetEmbed } from 'react-twitter-embed';
 
-const TwitterFeed = () => {
+const TwitterFeed = ({tweets, getTwitterFeed}) => {
+    useEffect(() => {
+        getTwitterFeed();
+    }, [getTwitterFeed])
+
+    const distinctTweetIds = [...new Set(tweets.tweets.map(tweet => (tweet.retweeted_status? tweet.retweeted_status.id_str : tweet.id )))];
+    
     return (
         <div>
-            <TwitterTweetEmbed tweetId={'1145709555327918080'} />
+            {tweets.loading? <div> Loading... </div> : (
+                distinctTweetIds.map(id => (
+                    <TwitterTweetEmbed key={id} tweetId={id} />
+                ))
+            )}
         </div>
     )
 }
 
-export default TwitterFeed
+const mapStateToProps = state => ({
+    tweets: state.tweets
+})
+
+export default connect(mapStateToProps, {getTwitterFeed})(TwitterFeed)
