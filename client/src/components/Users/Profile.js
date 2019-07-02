@@ -4,7 +4,12 @@ import Navbar from '../Navbar';
 
 const Profile = ({user, loading}) => {
     return(
+        <Fragment>
         <Navbar />
+            <div className="container mt-4">
+                User profile goes here
+            </div>
+        </Fragment>
         
     )
 

@@ -4,7 +4,7 @@ import {
 } from './types';
 import axios from 'axios';
 import config from '../config/config'
-import setAuthToken from '../utils/setAuthToken';
+// import setAuthToken from '../utils/setAuthToken';
 
 export const getCurrentWeather = (lat, long) => async dispatch => {
     try{

@@ -22,7 +22,6 @@ const App = () => {
                 <Route exact path='/login' component={Login}/>
                 <Route exact path='/me' component={Profile}/>
                 </Switch>
-
             </Router>
         </Provider>
     )

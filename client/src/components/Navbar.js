@@ -42,7 +42,7 @@ const Navbar = ({weather, location, getCurrentWeather, getCity, isAuthenticated,
             <li className="nav-item mr-3 align-items-center">
             <div className="d-flex align-items-center justify-content-center">
                 <div className="text-right">
-                    { (!loading) ? <img className="img-fluid" style={{'width': '30%'}}src={userInfo.profileImage} /> : <i className="fas fa-user" />}
+                    { (!loading) ? <img className="img-fluid" alt="profile_image" style={{'width': '30%'}}src={userInfo.profileImage} /> : <i className="fas fa-user" />}
                 </div>
                 <div>
                     <Link to="/me" className="d-md-inline d-sm-block nav-link text-dark ml-2">{ !loading ? userInfo.firstName : ''}</Link>
