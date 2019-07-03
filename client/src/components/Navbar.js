@@ -42,10 +42,11 @@ const Navbar = ({weather, location, getCurrentWeather, getCity, isAuthenticated,
             <li className="nav-item mr-3 align-items-center">
             <div className="d-flex align-items-center justify-content-center">
                 <div className="text-right">
-                    { (!loading) ? <img className="img-fluid" alt="profile_image" style={{'width': '30%'}}src={userInfo.profileImage} /> : <i className="fas fa-user" />}
+                
+                    { (!loading) ? <img src={userInfo.profileImage} width="30px" alt="" className="img-fluid border rounded-circle"/> : <i className="fas fa-user" />}
                 </div>
                 <div>
-                    <Link to="/me" className="d-md-inline d-sm-block nav-link text-dark ml-2">{ !loading ? userInfo.firstName : ''}</Link>
+                    <Link to="/me" className="d-md-inline d-sm-block nav-link text-dark">{ !loading ? userInfo.firstName : ''}</Link>
                     <Link to="/" onClick={logout} className="d-md-inline d-sm-block nav-link text-dark ml-2">{ !loading ? 'Logout' : ''}</Link>
                     {/* <a href="#" onClick={logout} className="dropdown-item"><i className="fas fa-cog"></i> Logout</a> */}
                 </div>
@@ -57,7 +58,7 @@ const Navbar = ({weather, location, getCurrentWeather, getCity, isAuthenticated,
     return (
         <div>
             <nav className="navbar navbar-expand-sm mr-auto">
-                <div className="container">
+                <div className="container border-bottom pb-1">
                     <div className="d-flex align-items-center">
                         <div>
                             <Link to="/" className="navbar-brand"><img src={logo} alt="" className="img-fluid" style={{height:'20px', width:'auto'}}/></Link>

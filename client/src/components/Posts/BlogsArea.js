@@ -49,6 +49,9 @@ const BlogsArea = ({posts, getPosts}) => {
 
     return (
         <div>
+            <div className="text-right">
+                <Link to="/post/new" className="btn btn-dark mb-3 align-right">Create New Post</Link>
+            </div>
             {posts.loading? <div> Loading </div>: 
                 <Fragment>
                 {posts.posts.map(post => (

@@ -9,7 +9,7 @@ import config from '../config/config'
 export const getCurrentWeather = (lat, long) => async dispatch => {
     try{
         const darksky_key = config.darksky_key;
-        delete axios.defaults.headers.common['x-auth-token'];
+        // delete axios.defaults.headers.common['x-auth-token'];
         const res = await axios.get(`https://cors-anywhere.herokuapp.com/https://api.darksky.net/forecast/${darksky_key}/${lat},${long}`);
         dispatch({
             type:GET_CURRENT_WEATHER,

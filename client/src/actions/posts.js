@@ -2,10 +2,11 @@ import {
     GET_POSTS,
     GET_POST,
     REMOVE_CURRENT_POST,
-    POST_ADDED
+    POST_ADDED,
+    POST_UPDATED,
+    POST_DELETED
 } from './types';
 import axios from 'axios';
-import { loadUser } from './user';
 
 export const getPosts = () => async dispatch => {
     try{
@@ -40,16 +41,41 @@ export const unloadCurrentPost = () => async dispatch => {
 
 export const addPost = formData => async dispatch => {
     if(formData){
-        loadUser();
         try{
-            const config = {
-                headers: {'Content-Type': 'application/json'}
-            }
-            const res = await axios.post('/api/posts', formData, config )
-            console.log(res.data);
+            const res = await axios.post('/api/posts', formData)
+            dispatch({
+                type: POST_ADDED
+            })
         }catch(err){
             console.log(err);
         }
     }
     
+}
+
+export const editPost = (postId, formData) => async dispatch => {
+    try{
+        const res = await axios.put(`/api/posts/${postId}`, formData)
+        dispatch({
+            type: POST_UPDATED
+        })
+
+
+    }catch(err){
+        console.log(err);
+    }
+}
+
+export const deletePost = postId => async dispatch => {
+    try{
+        const res = await axios.delete(`/api/posts/${postId}`)
+        if(res){
+            dispatch({
+                type: POST_DELETED
+            })
+            unloadCurrentPost();
+        }
+    }catch(err){
+        console.log(err);
+    }
 }

@@ -11,6 +11,7 @@ import Profile from './components/Users/Profile';
 import Navbar from './components/Navbar';
 import Post from './components/Posts/Post';
 import CreatePost from './components/Posts/CreatePost';
+import EditPost from './components/Posts/EditPost';
 
 
 const App = () => {
@@ -27,6 +28,7 @@ const App = () => {
                 <Route exact path='/me' component={Profile}/>
                 <Route exact path='/post/new' component={CreatePost} />
                 <Route exact path='/post/:id' component={Post} />
+                <Route exact path='/post/edit/:id' component={EditPost} />
                 </Switch>
             </Router>
         </Provider>
