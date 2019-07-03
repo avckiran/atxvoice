@@ -5,7 +5,6 @@ import {addPost} from '../../actions/posts';
 import {loadUser} from '../../actions/user';
 import 'react-quill/dist/quill.snow.css';
 
-
 const CreatePost = ({addPost, loadUser}) => {
 
     useEffect(()=>{
@@ -26,6 +25,8 @@ const CreatePost = ({addPost, loadUser}) => {
         e.preventDefault();
         addPost(formData);
     }
+
+
 
     const modules = {
         toolbar: [
@@ -71,7 +72,6 @@ const CreatePost = ({addPost, loadUser}) => {
                 />
                 <button className="btn btn-outline-dark btn-block btn-sm mt-5">Submit</button>
             </form>
-
         </div>
     )
 }
