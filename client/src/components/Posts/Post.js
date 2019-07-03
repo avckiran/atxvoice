@@ -1,11 +1,11 @@
 import React, {useEffect} from 'react';
 import {connect} from 'react-redux';
-import {getPost, deletePost} from '../../actions/posts';
+import {getPost, deletePost, likePost} from '../../actions/posts';
 import {Link} from 'react-router-dom';
 import Moment from 'react-moment'
 import 'react-quill/dist/quill.snow.css';
 
-const Post = ({match, getPost, posts, userInfo, deletePost}) => {
+const Post = ({match, getPost, posts, userInfo, deletePost, likePost}) => {
     useEffect(()=>{
         getPost(match.params.id);
     },[getPost])
@@ -25,6 +25,9 @@ const Post = ({match, getPost, posts, userInfo, deletePost}) => {
         }
     }
 
+    const likeThisPost = () => {
+        likePost(match.params.id);
+    }
   
 
 
@@ -34,7 +37,7 @@ const Post = ({match, getPost, posts, userInfo, deletePost}) => {
             <div className="mx-md-5 mx-sm-2">
                 <Link to="/" className="mb-3">Back to posts</Link>
             <h2 className="mb-4 text-dark text-center display-4"> {posts.onePost.title} </h2>
-                <div className="d-flex align-items-center justify-content-between">
+                <div className="mt-3 d-flex align-items-center justify-content-between">
                     <div className="d-flex">
                         <div className="mr-2">
                                 <img src={posts.onePost.user.profileImage} width="50px" alt="" className="img-fluid border border-dark rounded-circle"/>
@@ -54,15 +57,34 @@ const Post = ({match, getPost, posts, userInfo, deletePost}) => {
              
                 </div>
 
-                <img src={posts.onePost.cover_img} className="img-fluid rounded mx-auto mb-5 d-block w-100" style={{'objectFit': 'cover', 'maxHeight':'300px'}}alt="Responsive image"></img>
-                {/* <div className="mt-0 mb-1" style={postStyle}> </div> */}
-                {/* <ReactQuill value={posts.onePost.content} /> */}
-                {/* {posts.onePost.content}  */}
+                <img src={posts.onePost.cover_img} className="img-fluid rounded mx-auto mt-4 mb-5 d-block w-100" style={{'objectFit': 'cover', 'maxHeight':'300px'}}alt="Responsive image"></img>
                 <div className="mx-md-4" dangerouslySetInnerHTML={{ __html: posts.onePost.content }} />
-
-                {/* <p className="text-secondary text-justify">{posts.onePost.content}</p> */}
+                <hr/>
+                {/* Like Post functionality  */}
+                <div className="d-flex align-items-center justify-content-between">
+                    <div>
+                        Likes : {posts.onePost.likes.length}
+                        <div>
+                            {posts.onePost.likes.map(like => (
+                                <img src={like.profile_img} width="20px" alt={like.email} className="img-fluid border border-dark rounded-circle"/>
+                            ))}
+                        </div>
+                    </div>
+                    <div>
+                        {posts.onePost.likes.filter(like => (like.user === userInfo._id)).length>0 ? (
+                            <div>
+                                <button onClick={likeThisPost} className="btn btn-outline-danger btn-sm">Unlike</button>
+                            </div>
+                        ) : ( 
+                        <button onClick={likeThisPost} className="btn btn-outline-dark btn-sm">Like this post</button>
+                        ) }
+                    </div>
+                </div>
             </div> 
             : <div> Loading... </div>}
+
+    
+
         </div>
     )
 
@@ -74,4 +96,4 @@ const mapStateToProps = state => ({
     userInfo: state.user.userInfo
 })
 
-export default connect(mapStateToProps, {getPost, deletePost})(Post);
+export default connect(mapStateToProps, {getPost, deletePost, likePost})(Post);

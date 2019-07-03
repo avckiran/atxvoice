@@ -168,13 +168,13 @@ router.put('/like/:id', auth, async(req,res) =>{
             const removeIndex = post.likes.map(like => like.user.toString()).indexOf(req.user.id);
             post.likes.splice(removeIndex, 1)
             await post.save();
-            return res.json({msg:"Post Unliked"})
+            return res.json({'msg':"Post Unliked", 'data': post.likes})
         }
         //if not liked, then add user to likes
         const user = await User.findById(req.user.id).select('-password');
         post.likes.unshift({user: req.user.id, email:user.email, profile_img: user.profileImage});
         await post.save();
-        res.json({msg:"Post liked"});
+        res.json({msg:"Post liked", 'data': post.likes});
     }catch(err){
         console.error(err.message);
         if(err.kind === 'ObjectId'){ res.status(404).json({msg: "Post not found"})};

@@ -1,7 +1,10 @@
 import {
     GET_POSTS,
     GET_POST,
-    REMOVE_CURRENT_POST
+    REMOVE_CURRENT_POST,
+    POST_ADDED,
+    POST_LIKED,
+    POST_UNLIKED
 } from '../actions/types';
 
 const initialState = {loading: true}
@@ -23,10 +26,23 @@ export default function(state=initialState, action){
                 onePost: payload
             }
         
+        case POST_ADDED: 
+            return{
+                ...state,
+                posts: [payload, ...state.posts]
+            }
+        
         case REMOVE_CURRENT_POST:
             return{
                 ...state,
                 onePost: null
+            }
+        
+        case POST_LIKED:
+        case POST_UNLIKED:
+            return{
+                ...state, 
+                onePost: payload
             }
         default: return state
     }

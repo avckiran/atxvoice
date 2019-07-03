@@ -12,6 +12,7 @@ import Navbar from './components/Navbar';
 import Post from './components/Posts/Post';
 import CreatePost from './components/Posts/CreatePost';
 import EditPost from './components/Posts/EditPost';
+import Footer from './components/Footer';
 
 
 const App = () => {
@@ -30,6 +31,7 @@ const App = () => {
                 <Route exact path='/post/:id' component={Post} />
                 <Route exact path='/post/edit/:id' component={EditPost} />
                 </Switch>
+            <Footer />
             </Router>
         </Provider>
     )

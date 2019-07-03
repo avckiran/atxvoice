@@ -13,6 +13,9 @@ export const REMOVE_CURRENT_POST = 'REMOVE_CURRENT_POST';
 export const POST_ADDED = 'POST_ADDED';
 export const POST_UPDATED = 'POST_UPDATED';
 export const POST_DELETED = 'POST_DELETED';
+export const POST_LIKED = 'POST_LIKED';
+export const POST_UNLIKED = 'POST_UNLIKED';
+export const UNKNOWN_ERROR = 'UNKNOWN_ERROR';
 
 
 

@@ -4,7 +4,10 @@ import {
     REMOVE_CURRENT_POST,
     POST_ADDED,
     POST_UPDATED,
-    POST_DELETED
+    POST_DELETED,
+    POST_LIKED,
+    POST_UNLIKED,
+    UNKNOWN_ERROR
 } from './types';
 import axios from 'axios';
 
@@ -42,7 +45,7 @@ export const unloadCurrentPost = () => async dispatch => {
 export const addPost = formData => async dispatch => {
     if(formData){
         try{
-            const res = await axios.post('/api/posts', formData)
+            await axios.post('/api/posts', formData)
             dispatch({
                 type: POST_ADDED
             })
@@ -55,11 +58,11 @@ export const addPost = formData => async dispatch => {
 
 export const editPost = (postId, formData) => async dispatch => {
     try{
-        const res = await axios.put(`/api/posts/${postId}`, formData)
+        await axios.put(`/api/posts/${postId}`, formData)
         dispatch({
-            type: POST_UPDATED
-        })
+            type: POST_UPDATED,
 
+        })
 
     }catch(err){
         console.log(err);
@@ -69,12 +72,42 @@ export const editPost = (postId, formData) => async dispatch => {
 export const deletePost = postId => async dispatch => {
     try{
         const res = await axios.delete(`/api/posts/${postId}`)
-        if(res){
+        if(res.data.msg === 'Post deleted successfully'){
             dispatch({
                 type: POST_DELETED
             })
             unloadCurrentPost();
+        }else{
+            dispatch({
+                type: UNKNOWN_ERROR
+            })
         }
+    }catch(err){
+        console.log(err);
+    }
+}
+
+export const likePost = postId => async dispatch => {
+    try{
+        const res = await axios.put(`/api/posts/like/${postId}`)
+        if(res) {
+            const post = await axios.get(`/api/posts/${postId}`)
+            // console.log('res', res);
+            // console.log('post', post);
+            if(res.data.msg === 'Post liked'){
+                dispatch({
+                    type: POST_LIKED,
+                    payload: post.data
+                })
+            }else{
+                dispatch({
+                    type: POST_UNLIKED,
+                    payload: post.data
+                })
+            }
+        }
+
+
     }catch(err){
         console.log(err);
     }
