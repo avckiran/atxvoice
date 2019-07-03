@@ -1,7 +1,7 @@
 import React, {useEffect, Fragment} from 'react';
 import {connect} from 'react-redux';
-import {Redirect, Link} from 'react-router-dom';
-import {getPosts} from '../actions/posts';
+import {Link} from 'react-router-dom';
+import {getPosts} from '../../actions/posts';
 
 const BlogsArea = ({posts, getPosts}) => {
 

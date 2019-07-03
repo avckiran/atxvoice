@@ -10,6 +10,7 @@ export const GET_TWITTER_FEED = 'GET_TWITTER_FEED';
 export const GET_POSTS = 'GET_POSTS';
 export const GET_POST = 'GET_POST';
 export const REMOVE_CURRENT_POST = 'REMOVE_CURRENT_POST';
+export const POST_ADDED = 'POST_ADDED';
 
 
 

@@ -1,6 +1,7 @@
 import React, {useEffect} from 'react';
 import {connect} from 'react-redux';
-import {getPost} from '../actions/posts';
+import {getPost} from '../../actions/posts';
+import renderHTML from 'react-render-html';
 
 
 const Post = ({match, getPost, posts}) => {

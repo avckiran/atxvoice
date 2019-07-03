@@ -1,6 +1,6 @@
 import React, {Fragment, useEffect} from 'react'
 import Header from './Header';
-import BlogsArea from './BlogsArea';
+import BlogsArea from './Posts/BlogsArea';
 import TwitterFeed from './TwitterFeed';
 import {loadUser} from '../actions/user';
 import {getPosts, unloadCurrentPost} from '../actions/posts';

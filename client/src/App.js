@@ -9,7 +9,8 @@ import Signup from './components/Forms/Signup'
 import Login from './components/Forms/Login';
 import Profile from './components/Users/Profile';
 import Navbar from './components/Navbar';
-import Post from './components/Post';
+import Post from './components/Posts/Post';
+import CreatePost from './components/Posts/CreatePost';
 
 
 const App = () => {
@@ -24,6 +25,7 @@ const App = () => {
                 <Route exact path='/signup' component={Signup}/>
                 <Route exact path='/login' component={Login}/>
                 <Route exact path='/me' component={Profile}/>
+                <Route exact path='/post/new' component={CreatePost} />
                 <Route exact path='/post/:id' component={Post} />
                 </Switch>
             </Router>

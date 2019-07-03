@@ -1,9 +1,11 @@
 import {
     GET_POSTS,
     GET_POST,
-    REMOVE_CURRENT_POST
+    REMOVE_CURRENT_POST,
+    POST_ADDED
 } from './types';
 import axios from 'axios';
+import { loadUser } from './user';
 
 export const getPosts = () => async dispatch => {
     try{
@@ -34,4 +36,20 @@ export const unloadCurrentPost = () => async dispatch => {
     dispatch({
         type: REMOVE_CURRENT_POST
     })
+}
+
+export const addPost = formData => async dispatch => {
+    if(formData){
+        loadUser();
+        try{
+            const config = {
+                headers: {'Content-Type': 'application/json'}
+            }
+            const res = await axios.post('/api/posts', formData, config )
+            console.log(res.data);
+        }catch(err){
+            console.log(err);
+        }
+    }
+    
 }
