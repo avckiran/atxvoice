@@ -1,14 +1,16 @@
-import React, {useEffect} from 'react';
+import React, {useEffect, useState} from 'react';
 import {connect} from 'react-redux';
-import {getPost, deletePost, likePost} from '../../actions/posts';
+import {getPost, deletePost, likePost, addComment, deleteComment} from '../../actions/posts';
 import {Link} from 'react-router-dom';
 import Moment from 'react-moment'
 import 'react-quill/dist/quill.snow.css';
 
-const Post = ({match, getPost, posts, userInfo, deletePost, likePost}) => {
+const Post = ({match, getPost, posts, userInfo, deletePost, likePost, addComment, deleteComment}) => {
     useEffect(()=>{
         getPost(match.params.id);
     },[getPost])
+
+    const [comment, setComment] = useState('');
 
     const postStyle = {
         background: posts.onePost ? `url(${posts.onePost.cover_img})` : 'lightgrey',
@@ -29,6 +31,15 @@ const Post = ({match, getPost, posts, userInfo, deletePost, likePost}) => {
         likePost(match.params.id);
     }
   
+    const commentSubmit = e => {
+        e.preventDefault();
+        addComment(match.params.id, comment);
+        setComment('');
+    }
+
+    const deleteThisComment = comment_id => {
+        deleteComment(match.params.id, comment_id)
+    }
 
 
     return (
@@ -66,7 +77,7 @@ const Post = ({match, getPost, posts, userInfo, deletePost, likePost}) => {
                         Likes : {posts.onePost.likes.length}
                         <div>
                             {posts.onePost.likes.map(like => (
-                                <img src={like.profile_img} width="20px" alt={like.email} className="img-fluid border border-dark rounded-circle"/>
+                                <img key={like.user} src={like.profile_img} width="20px" alt={like.email} className="ml-2 img-fluid border border-dark rounded-circle"/>
                             ))}
                         </div>
                     </div>
@@ -80,6 +91,52 @@ const Post = ({match, getPost, posts, userInfo, deletePost, likePost}) => {
                         ) }
                     </div>
                 </div>
+                <hr/>
+                {/* Comments functionality */}
+                <form onSubmit={e => commentSubmit(e)} className="form mb-4">
+                    <div className="form-group">
+                        <i className="far fa-comment-dots"></i> <label htmlFor="comment">Add comment</label>
+                        <textarea 
+                            className="form-control" 
+                            name="comment" 
+                            value={comment}
+                            onChange = {e => setComment(e.target.value)}
+                            rows="2"></textarea>
+                    </div>
+                    <button className="btn btn-outline-dark btn-sm">Add Comment</button>
+                </form>
+                
+                {/* Display comments */}
+                <div className="mt-3">
+                {posts.onePost.comments.map(comment => (
+                    <div className="card my-3">
+                        <div className="card-header d-flex align-items-center bg-white border-bottom-0">
+                            <div>
+                                <img src={comment.profile_img} width="30px" alt={comment.email} className="ml-2 img-fluid border border-dark rounded-circle"/>
+                            </div>
+                            <div className="ml-3">
+                                <span><small className="text-muted">{comment.name} <br/>
+                                <Moment parse="x" format="MMM DD, h:MM A"> {comment.created_date} </Moment>
+                                </small></span>
+                            </div>
+                            {comment.user === userInfo._id ? (  
+                                <div className="ml-auto">
+                                    {/* <button className="mr-2 btn btn-outline-dark btn-sm border-0"> <i className="fas fa-pencil-alt"></i></button> */}
+                                    <button onClick={() => deleteThisComment(comment.id)} className="btn btn-outline-danger btn-sm border-0"><i className="fas fa-trash-alt"></i>{' '}</button> 
+                                </div>
+                                ) : (<div> </div>)}
+                          
+                        </div>
+                        <div className="card-body ml-5">
+                            {comment.comment}
+                        </div>
+                    </div>
+
+
+                ))}
+
+                </div>               
+
             </div> 
             : <div> Loading... </div>}
 
@@ -96,4 +153,4 @@ const mapStateToProps = state => ({
     userInfo: state.user.userInfo
 })
 
-export default connect(mapStateToProps, {getPost, deletePost, likePost})(Post);
+export default connect(mapStateToProps, {getPost, deletePost, likePost, addComment, deleteComment})(Post);

@@ -193,20 +193,22 @@ router.put('/comment/:id', [auth, [
 ]], async(req,res)=>{
     const errors = validationResult(req);
     if(!errors.isEmpty()){
-        return res.status(400).json({errors: errors.array()});
+        return res.json({status: '400', errors: errors.array()});
     }
     try{
         const post = await Posts.findById(req.params.id);
         if(!post) res.json({msg:"Post not found"})
 
         const user = await User.findById(req.user.id).select('-password');
-        
+    
         const comment = {
             id: uuid.v4(),
             comment:req.body.comment,
             user: req.user.id,
+            name: user.firstName,
             email:user.email,
-            profile_img:user.profileImage
+            profile_img:user.profileImage,
+            created_date: Date.now()
         }
         post.comments.unshift(comment);
         await post.save();

@@ -16,6 +16,9 @@ export const POST_DELETED = 'POST_DELETED';
 export const POST_LIKED = 'POST_LIKED';
 export const POST_UNLIKED = 'POST_UNLIKED';
 export const UNKNOWN_ERROR = 'UNKNOWN_ERROR';
+export const COMMENT_ADDED = 'COMMENT_ADDED';
+export const COMMENT_DELETED = 'COMMENT_DELETED';
+
 
 
 

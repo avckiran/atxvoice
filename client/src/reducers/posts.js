@@ -4,7 +4,9 @@ import {
     REMOVE_CURRENT_POST,
     POST_ADDED,
     POST_LIKED,
-    POST_UNLIKED
+    POST_UNLIKED,
+    COMMENT_ADDED,
+    COMMENT_DELETED
 } from '../actions/types';
 
 const initialState = {loading: true}
@@ -40,10 +42,13 @@ export default function(state=initialState, action){
         
         case POST_LIKED:
         case POST_UNLIKED:
+        case COMMENT_ADDED:
+        case COMMENT_DELETED:
             return{
                 ...state, 
                 onePost: payload
             }
+        
         default: return state
     }
 }

@@ -7,6 +7,8 @@ import {
     POST_DELETED,
     POST_LIKED,
     POST_UNLIKED,
+    COMMENT_ADDED,
+    COMMENT_DELETED,
     UNKNOWN_ERROR
 } from './types';
 import axios from 'axios';
@@ -108,6 +110,38 @@ export const likePost = postId => async dispatch => {
         }
 
 
+    }catch(err){
+        console.log(err);
+    }
+}
+
+export const addComment = (postId, comment) => async dispatch => {
+    try{
+        const res = await axios.put(`/api/posts/comment/${postId}`, {comment})
+        // console.log(res);
+        if(res.data.msg){
+            const post = await axios.get(`/api/posts/${postId}`)
+            dispatch({
+                type: COMMENT_ADDED,
+                payload: post.data
+            })
+        }
+
+    }catch(err){
+        console.log(err);
+    }
+}
+
+export const deleteComment = (postId, commentId) => async dispatch => {
+    try{
+        const res = await axios.delete(`/api/posts/${postId}/comment/${commentId}`);
+        if(res.data.msg){
+            const post = await axios.get(`/api/posts/${postId}`)
+            dispatch({
+                type: COMMENT_DELETED,
+                payload: post.data
+            })
+        }
     }catch(err){
         console.log(err);
     }
