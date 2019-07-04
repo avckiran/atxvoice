@@ -39,7 +39,7 @@ router.post('/', [
             let profileImage = '';
             //gravatar for profile image
             if(!req.body.profileImage){
-                profileImage = gravatar.url(req.body.email, { s:'100', r:'pg', d:'robohash'});
+                profileImage = gravatar.url(req.body.email, { s:'100', r:'pg', d:'mp'});
             }else{
                 profileImage = req.body.profileImage;
             }
