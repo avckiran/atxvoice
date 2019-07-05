@@ -3,6 +3,8 @@ export const GET_CITY = 'GET_CITY';
 export const FORM_ALERT = 'FORM_ALERT';
 export const USER_REGISTERED = 'USER_REGISTERED';
 export const USER_LOADED = 'USER_LOADED';
+export const USER_DELETED = 'USER_DELETED';
+export const USER_UPDATED = 'USER_UPDATED';
 export const AUTH_ERROR = 'AUTH_ERROR';
 export const LOGOUT = 'LOGOUT';
 export const LOGIN_SUCCESS = 'LOGIN_SUCCESS';
@@ -18,6 +20,7 @@ export const POST_UNLIKED = 'POST_UNLIKED';
 export const UNKNOWN_ERROR = 'UNKNOWN_ERROR';
 export const COMMENT_ADDED = 'COMMENT_ADDED';
 export const COMMENT_DELETED = 'COMMENT_DELETED';
+export const FILE_UPLOADED = 'FILE_UPLOADED';
 
 
 

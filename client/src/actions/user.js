@@ -2,9 +2,12 @@ import {
     FORM_ALERT,
     USER_REGISTERED,
     USER_LOADED,
+    USER_DELETED,
+    USER_UPDATED,
     AUTH_ERROR,
     LOGOUT,
-    LOGIN_SUCCESS
+    LOGIN_SUCCESS,
+    FILE_UPLOADED
 } from './types';
 import uuid from 'uuid';
 import axios from 'axios';
@@ -112,3 +115,59 @@ export const logout = () => async dispatch => {
     })
 }
 
+// Delete user profile
+
+export const deleteUser = userId => async dispatch => {
+    console.log("action call received", userId);
+    
+    try{
+        if(userId){
+            const res = await axios.delete(`/api/user/delete/${userId}`);
+            if(res.data.msg === 'User deleted'){
+                dispatch({
+                    type: USER_DELETED,
+                    payload: res.data.user
+                })
+            }
+        }
+    }catch(err){
+        console.error(err);
+    }
+}
+
+
+//Edit User Profile 
+export const editUser = (userId, formData) => async dispatch => {
+    try{
+        const res = await axios.put(`/api/user/update/${userId}`, formData);
+        if(res.data.msg === 'User updated'){
+            dispatch({
+                type: USER_UPDATED,
+                payload: res.data
+            })
+        }
+    }catch(err){
+        console.error(err);
+    }
+}
+
+//Profile file upload
+export const fileUpload = file => async dispatch => {
+    const profilePicture = new FormData();
+    if(file){profilePicture.append('file', file)};
+    try{
+        const res = await axios.post('/upload',profilePicture, {
+            headers:{
+                'Content-Type': 'multipart/form-data'
+            }
+        })
+        if(res.data.fileName){
+            dispatch({
+                type:FILE_UPLOADED,
+                payload: res.data
+            })
+        }
+    }catch(err){
+        console.log(err);
+    }
+}

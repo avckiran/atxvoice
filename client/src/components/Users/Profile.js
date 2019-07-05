@@ -1,15 +1,29 @@
 import React, {Fragment} from 'react';
 import {connect} from 'react-redux';
-import {Redirect} from 'react-router-dom';
+import {Link} from 'react-router-dom';
+import {deleteUser} from '../../actions/user';
+import Spinner from '../../components/Spinner';
 
-const Profile = ({user}) => {
+
+const Profile = ({user, deleteUser}) => {
+
+    const deleteCurrentUser = () => {
+        if (window.confirm(`Are you sure you wish to delete the Account? This can't be undone.`)) {
+            deleteUser(user.userInfo._id);
+        }
+    }
+
+    const editCurrentUser = () => {
+        console.log("Edit user selected");
+    }
+
     return(
         <Fragment>
             <div className="container mt-4">
                 {user.isAuthenticated? (<div>
                 <div className="ml-auto mb-4 text-right">
-                    <button className="btn btn-outline-dark btn-sm mr-2"> <i className="fas fa-pencil-alt"></i> Edit Account</button>
-                    <button className="btn btn-danger btn-sm"> <i className="fas fa-trash-alt"></i> Delete Account</button>
+                    <Link to='/me/edit' className="btn btn-outline-dark btn-sm mr-2"> <i className="fas fa-pencil-alt"></i> Edit Account</Link>
+                    <button onClick={()=> deleteCurrentUser()} className="btn btn-danger btn-sm"> <i className="fas fa-trash-alt"></i> Delete Account</button>
                 </div>
                 <div className="d-flex justify-content-between">
                     <div>
@@ -24,26 +38,12 @@ const Profile = ({user}) => {
                 </div>
                 <hr/>
                 <p className="lead"><span className="h5"></span>{user.userInfo.bio}</p>
-                <p className="mb-2"><span className="h5">Interests: </span><br />
+                <div className="mb-3"><span className="h5 mb-3">Interests: </span><br />
                 {user.userInfo.interests.map(interest => (
-                    <div className="text-secondary ml-2 mt-2"><i className="far fa-check-circle mr-2"></i>{' '}{interest.toUpperCase()}</div>
-                ))}</p>
+                    <p key={interest} className="text-secondary ml-2 mt-1" style={{'fontSize':'0.8rem'}}><i className="far fa-check-circle mr-2"></i>{' '}{interest.toUpperCase()}</p>
+                ))}</div>
 
-                    
-                    
-                    {/* First Name: {user.userInfo.firstName}
-                    Last Name: {user.userInfo.lastName}
-                    Email: {user.userInfo.email}
-                    Location: {user.userInfo.location}
-                    Bio: {user.userInfo.bio}
-                    Interests: {user.userInfo.interests} */}
-
-
-                </div>) : (<div className="text-center mt-5"> 
-                    <div className="spinner-border" role="status">
-                        <span className="sr-only">Loading...</span>
-                    </div>
-                </div>)}
+                </div>) : (<Spinner /> )}
 
             </div>
         </Fragment>
@@ -57,4 +57,4 @@ const mapStateToProps = state => ({
     loading: state.loading
 })
 
-export default connect(mapStateToProps)(Profile);
+export default connect(mapStateToProps, {deleteUser})(Profile);

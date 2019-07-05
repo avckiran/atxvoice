@@ -4,7 +4,7 @@ import logo from '../assets/atx-voice-full-logo.png';
 
 const Footer = () => {
     return (
-            <footer className="container fixed-bottom p-4 mb-4 border-top" style={{'height':'100px'}}>
+            <footer className="container px-4 pb-4 mt-5 border-top" style={{'height':'100px'}}>
                 <div className="d-flex justify-content-between align-items-center">
                     <div>
                     <Link to="/" className="navbar-brand"><img src={logo} alt="" className="img-fluid" style={{height:'20px', width:'auto'}}/></Link>

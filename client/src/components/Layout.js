@@ -24,7 +24,7 @@ const Layout = ({loadUser, isAuthenticated, getPosts, unloadCurrentPost}) => {
                         <BlogsArea />
                     </div>
                     <div className="col-md-3 border-left p-3 d-none d-md-block">
-                        <h6 className="mb-3">Latest:</h6>
+                        <h6 className="mb-3">Latest from Twitter:</h6>
                         <TwitterFeed />
                     </div>
                 </div>

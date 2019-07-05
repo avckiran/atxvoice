@@ -1,9 +1,11 @@
 const express = require('express');
-const connectDB = require('./config/db')
+const connectDB = require('./config/db');
+const fileUpload = require('express-fileupload');
 const app = express();
 
 //configuring middleware for body-parser
 app.use(express.json({extended:false}));
+app.use(fileUpload());
 
 //connect Database
 connectDB();
@@ -18,6 +20,24 @@ app.use('/api/user', require('./routes/user'));
 app.use('/api/test', require('./routes/test'));
 app.use('/api/posts', require('./routes/posts'));
 app.use('/api/tweets', require('./routes/tweets'));
+
+
+//File Upload end point
+
+app.post('/upload', (req,res)=>{
+    if(req.files === null){
+        return res.json({status:400, msg: "No file uploaded"})
+    }
+    const file = req.files.file;
+    const fileName = Date.now()+'_'+file.name;
+    file.mv(`${__dirname}/client/public/uploads/${fileName}`, err => {
+        if(err){
+            console.error(err);
+            return res.status(500).send(err);
+        }
+        res.json({fileName: file.name, filePath: `/uploads/${fileName}`});
+    });
+})
 
 
 //Unhandled Route

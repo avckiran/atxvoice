@@ -5,7 +5,7 @@ import {Link} from 'react-router-dom';
 import Moment from 'react-moment'
 import 'react-quill/dist/quill.snow.css';
 
-const Post = ({match, getPost, posts, userInfo, deletePost, likePost, addComment, deleteComment}) => {
+const Post = ({match, getPost, posts, userInfo, deletePost, likePost, addComment, deleteComment, isAuthenticated}) => {
     useEffect(()=>{
         getPost(match.params.id);
     },[getPost])
@@ -59,7 +59,7 @@ const Post = ({match, getPost, posts, userInfo, deletePost, likePost, addComment
                             <p className="text-dark"> <small><Moment format="MMM DD, YY" >{posts.onePost.createdDate}</Moment> </small> </p>
                         </div>
                     </div>
-                    {(posts.onePost.user._id === userInfo._id) ? (
+                    {(isAuthenticated && posts.onePost.user._id === userInfo._id) ? (
                     <div> 
                         <Link to={`/post/edit/${match.params.id}`} className="mr-2 btn btn-outline-dark btn-sm"> <i className="fas fa-pencil-alt"></i> Edit</Link>
                         <Link to="/" onClick ={deleteCurrentPost} className="btn btn-outline-danger btn-sm"><i className="fas fa-trash-alt"></i>{' '}Delete</Link> 
@@ -82,7 +82,7 @@ const Post = ({match, getPost, posts, userInfo, deletePost, likePost, addComment
                         </div>
                     </div>
                     <div>
-                        {posts.onePost.likes.filter(like => (like.user === userInfo._id)).length>0 ? (
+                        {isAuthenticated && posts.onePost.likes.filter(like => (like.user === userInfo._id)).length>0 ? (
                             <div>
                                 <button onClick={likeThisPost} className="btn btn-outline-danger btn-sm">Unlike</button>
                             </div>
@@ -119,7 +119,7 @@ const Post = ({match, getPost, posts, userInfo, deletePost, likePost, addComment
                                 <Moment parse="x" format="MMM DD, h:MM A"> {comment.created_date} </Moment>
                                 </small></span>
                             </div>
-                            {comment.user === userInfo._id ? (  
+                            {isAuthenticated && comment.user === userInfo._id ? (  
                                 <div className="ml-auto">
                                     {/* <button className="mr-2 btn btn-outline-dark btn-sm border-0"> <i className="fas fa-pencil-alt"></i></button> */}
                                     <button onClick={() => deleteThisComment(comment.id)} className="btn btn-outline-danger btn-sm border-0"><i className="fas fa-trash-alt"></i>{' '}</button> 
@@ -150,7 +150,9 @@ const Post = ({match, getPost, posts, userInfo, deletePost, likePost, addComment
 
 const mapStateToProps = state => ({
     posts: state.posts,
-    userInfo: state.user.userInfo
+    userInfo: state.user.userInfo,
+    isAuthenticated: state.user.isAuthenticated
+    
 })
 
 export default connect(mapStateToProps, {getPost, deletePost, likePost, addComment, deleteComment})(Post);

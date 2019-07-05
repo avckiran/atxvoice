@@ -3,14 +3,18 @@ import {
     USER_LOADED,
     AUTH_ERROR,
     LOGOUT,
-    LOGIN_SUCCESS
+    LOGIN_SUCCESS,
+    USER_DELETED,
+    USER_UPDATED,
+    FILE_UPLOADED
 } from '../actions/types';
 
 const initialState = {
     token: localStorage.getItem('token'),
     isAuthenticated: false,
     loading:true,
-    userInfo: null
+    userInfo: null,
+    fileUploaded: false
 };
 
 export default function(state=initialState, action){
@@ -25,7 +29,7 @@ export default function(state=initialState, action){
                 ...payload,
                 isAuthenticated: true
             }
-
+        case USER_UPDATED:
         case USER_LOADED:
             return ({
                 ...state,
@@ -40,7 +44,7 @@ export default function(state=initialState, action){
                     token: null,
                     isAuthenticated: false
                 })
-            
+        case USER_DELETED:
         case LOGOUT:
             localStorage.removeItem('token');
             return {
@@ -50,6 +54,14 @@ export default function(state=initialState, action){
                 isAuthenticated: false,
                 userInfo: null
             }
+        
+        case FILE_UPLOADED:
+            return{
+                ...state,
+                fileUploaded: true,
+                uploadedFile: payload
+            }
+
         default: return state
 
     }

@@ -152,10 +152,10 @@ router.get('/me', auth, async(req,res) => {
 
 router.delete('/delete/:id', auth, async (req,res) =>{
     const user = await User.findOne({_id:req.params.id});
-    if(!user){return res.status(400).json({msg:"User not found"})}
+    if(!user){return res.json({msg:"User not found"})}
     //check if the user is authorized to delete
     if(user._id.toString() !== req.user.id) {
-        return res.status(400).json({msg:"Unaunthorized to delete"})
+        return res.json({msg:"Unaunthorized to delete"})
     }
     //keeping copy of deleted users
     const {firstName, lastName, email, password, bio, profileImage, location, interests} = user;
@@ -165,7 +165,7 @@ router.delete('/delete/:id', auth, async (req,res) =>{
     await deletedUser.save(err => console.log(err));
     //Delete the record
     await User.findOneAndRemove({_id:req.params.id});
-    res.json({msg:"User deleted"});
+    res.json({msg:"User deleted", user});
 });
 
 
@@ -175,7 +175,7 @@ router.delete('/delete/:id', auth, async (req,res) =>{
 
 router.put('/update/:id', auth, async(req,res)=>{
     try{
-        const user = await User.findOne({_id: req.params.id});
+        const user = await User.findOne({_id: req.params.id}).select('-password');
         if(!user){ return res.status(400).json({msg:"User not found!"})}
         if(user._id.toString() !== req.user.id) { return res.status(401).json({msg:"User is not authorized"})}
         const { firstName, lastName, bio, profileImage, location, interests } = req.body;
@@ -187,7 +187,7 @@ router.put('/update/:id', auth, async(req,res)=>{
         if(location) user.location = location;
         if(interests) user.interests = interests.split(',').map(interest => interest.trim());
         user.save(err => console.log(err));
-        res.json({msg:"User updated"})
+        res.json({msg:"User updated", user})
     }catch(err){
         console.error(err.message);
         if(err.kind === 'ObjectId') {

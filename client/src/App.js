@@ -13,25 +13,25 @@ import Post from './components/Posts/Post';
 import CreatePost from './components/Posts/CreatePost';
 import EditPost from './components/Posts/EditPost';
 import Footer from './components/Footer';
+import EditProfile from './components/Users/EditProfile';
 
 
 const App = () => {
-
-
     return (
         <Provider store = {store}>
             <Router> 
             <Navbar />
                 <Switch>
-                <Route exact path="/" component={Layout} />
-                <Route exact path='/signup' component={Signup}/>
-                <Route exact path='/login' component={Login}/>
-                <Route exact path='/me' component={Profile}/>
-                <Route exact path='/post/new' component={CreatePost} />
-                <Route exact path='/post/:id' component={Post} />
-                <Route exact path='/post/edit/:id' component={EditPost} />
+                    <Route exact path="/" component={Layout} />
+                    <Route exact path='/signup' component={Signup}/>
+                    <Route exact path='/login' component={Login}/>
+                    <Route exact path='/me' component={Profile}/>
+                    <Route exact path='/post/new' component={CreatePost} />
+                    <Route exact path='/post/:id' component={Post} />
+                    <Route exact path='/post/edit/:id' component={EditPost} />
+                    <Route exact path='/me/edit' component={EditProfile} />
                 </Switch>
-            <Footer />
+            {/* <Footer /> */}
             </Router>
         </Provider>
     )

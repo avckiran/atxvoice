@@ -2,6 +2,7 @@ import React, {useEffect, Fragment} from 'react';
 import {connect} from 'react-redux';
 import {Link} from 'react-router-dom';
 import {getPosts} from '../../actions/posts';
+import Spinner from '../Spinner';
 
 const BlogsArea = ({posts, getPosts}) => {
 
@@ -52,7 +53,7 @@ const BlogsArea = ({posts, getPosts}) => {
             <div className="text-right">
                 <Link to="/post/new" className="btn btn-dark mb-3 align-right">Create New Post</Link>
             </div>
-            {posts.loading? <div> Loading </div>: 
+            {posts.loading? <div> <Spinner /> </div>: 
                 <Fragment>
                 {posts.posts.map(post => (
                     smallCard(post._id, post.cover_img, post.title, post.createdDate, post.user.firstName, post.user.profileImage)

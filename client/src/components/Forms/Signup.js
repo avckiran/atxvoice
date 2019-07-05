@@ -1,10 +1,11 @@
 import React, {Fragment, useState} from 'react'
+import axios from 'axios';
 import {connect} from 'react-redux';
 import {Link, Redirect} from 'react-router-dom';
-import {formAlert, registerUser} from '../../actions/user';
+import {formAlert, registerUser, fileUpload} from '../../actions/user';
 import Alert from './Alert';
 
-const Signup = ({formAlert, registerUser, alerts, isAuthenticated}) => {
+const Signup = ({formAlert, registerUser, alerts, isAuthenticated, fileUpload}) => {
 
     const [formData, setFormData] = useState({
         firstName: '',
@@ -18,6 +19,10 @@ const Signup = ({formAlert, registerUser, alerts, isAuthenticated}) => {
         location:'',
         submitBtn:false
     })
+
+    const [file, setFile] = useState('');
+    const [fileName, setFileName] = useState('Choose File')
+
     
     const {password, password2} = formData;
 
@@ -25,6 +30,15 @@ const Signup = ({formAlert, registerUser, alerts, isAuthenticated}) => {
         setFormData({...formData, [e.target.name]:e.target.value})
     }
 
+    const onFileChange = e => {
+        setFile(e.target.files[0]);
+        setFileName(e.target.files[0].name);
+    }
+    
+    // fileUpload(file);
+    
+   
+    
     const formSubmit = e => {
         e.preventDefault();
         if(password !== password2) {
@@ -33,8 +47,9 @@ const Signup = ({formAlert, registerUser, alerts, isAuthenticated}) => {
             return null;
         }
         registerUser(formData);
-       
     }
+
+
     
     if(isAuthenticated){
        return <Redirect to="/" />
@@ -57,6 +72,7 @@ const Signup = ({formAlert, registerUser, alerts, isAuthenticated}) => {
                             <hr/>
                             {alerts.map(alert => (<Alert key={alert.id} alert={alert}/>))}
                           
+                            
 
                             <form onSubmit={e=> formSubmit(e)}>
                                 <div className="row">
@@ -75,10 +91,12 @@ const Signup = ({formAlert, registerUser, alerts, isAuthenticated}) => {
                                 <input onChange={e=> onChange(e)}  type="text" className="form-control mt-3" placeholder="Your interests" name="interests" />
                                     <small className="form-text text-muted ml-1 mt-0">separate by comma</small>
                                 <div className="custom-file mt-3">
-                                    <input onChange={e=> onChange(e)}  type="file" className="custom-file-input" name="picture"/>
-                                    <label htmlFor="image" className="custom-file-label">Choose a profile picture</label>
+                                    <input onChange={e=> onFileChange(e)}  type="file" className="custom-file-input" name="picture" accept="image/png, image/jpeg"/>
+                                    <button onClick={()=> fileUpload(file)} className="d-inline btn btn-danger btn-sm">Upload</button>
+                                    <label htmlFor="image" className="custom-file-label">{fileName}</label>
                                 </div>
                                     <small className="form-text text-muted ml-1 mt-0">max size 3MB</small>
+                                {/* {uploadedFile.filePath} */}
                                 <input onChange={e=> onChange(e)}  type="text" className="form-control mt-3" placeholder="Location" name="location"/>
                                 
                                 <label htmlFor="accept" className="mt-3 ml-4">
@@ -125,4 +143,4 @@ const mapStateToProps = state => ({
     isAuthenticated: state.user.isAuthenticated
 })
 
-export default connect(mapStateToProps, {formAlert, registerUser})(Signup);
+export default connect(mapStateToProps, {formAlert, registerUser, fileUpload})(Signup);
