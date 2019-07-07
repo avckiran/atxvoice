@@ -14,7 +14,11 @@ const initialState = {
     isAuthenticated: false,
     loading:true,
     userInfo: null,
-    fileUploaded: false
+    fileUploaded: false,
+    uploadedFile:{
+        filePath: '',
+        fileName:''
+    }
 };
 
 export default function(state=initialState, action){

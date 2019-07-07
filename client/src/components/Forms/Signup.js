@@ -1,11 +1,10 @@
 import React, {Fragment, useState} from 'react'
-import axios from 'axios';
 import {connect} from 'react-redux';
 import {Link, Redirect} from 'react-router-dom';
 import {formAlert, registerUser, fileUpload} from '../../actions/user';
 import Alert from './Alert';
 
-const Signup = ({formAlert, registerUser, alerts, isAuthenticated, fileUpload}) => {
+const Signup = ({formAlert, registerUser, alerts, isAuthenticated, fileUpload, filePath}) => {
 
     const [formData, setFormData] = useState({
         firstName: '',
@@ -21,7 +20,7 @@ const Signup = ({formAlert, registerUser, alerts, isAuthenticated, fileUpload}) 
     })
 
     const [file, setFile] = useState('');
-    const [fileName, setFileName] = useState('Choose File')
+    const [fileName, setFileName] = useState('Choose File : limit 3mb')
 
     
     const {password, password2} = formData;
@@ -35,18 +34,36 @@ const Signup = ({formAlert, registerUser, alerts, isAuthenticated, fileUpload}) 
         setFileName(e.target.files[0].name);
     }
     
-    // fileUpload(file);
-    
+    // console.log("file", file);
+   
+    const uploadPicture = () => {
+        const uploadFileName = Date.now()+'_'+fileName;
+        const uploadFilePath=`/uploads/${uploadFileName}`;
+        setFormData({...formData, picture: uploadFilePath});
+        fileUpload(file);
+    }
    
     
-    const formSubmit = e => {
+    const formSubmit = async e => {
         e.preventDefault();
         if(password !== password2) {
             formAlert("Passwords didn't match"); 
             window.scrollTo(10,30);
             return null;
         }
-        registerUser(formData);
+        if(file){
+            if(file.size > 3000000){
+                formAlert('File is too big, please upload images less than 3 MB.');
+                window.scrollTo(10,30);
+                return null;
+            }
+            // fileUpload(file);
+            // console.log(formData);
+            registerUser(formData);
+        }else{
+            registerUser(formData);
+        }
+
     }
 
 
@@ -90,13 +107,19 @@ const Signup = ({formAlert, registerUser, alerts, isAuthenticated, fileUpload}) 
                                 <textarea onChange={e=> onChange(e)}  className="form-control mt-3" placeholder="Tell us a few lines about you!" name="bio"></textarea>
                                 <input onChange={e=> onChange(e)}  type="text" className="form-control mt-3" placeholder="Your interests" name="interests" />
                                     <small className="form-text text-muted ml-1 mt-0">separate by comma</small>
-                                <div className="custom-file mt-3">
-                                    <input onChange={e=> onFileChange(e)}  type="file" className="custom-file-input" name="picture" accept="image/png, image/jpeg"/>
-                                    <button onClick={()=> fileUpload(file)} className="d-inline btn btn-danger btn-sm">Upload</button>
-                                    <label htmlFor="image" className="custom-file-label">{fileName}</label>
+                                <div className="d-flex custom-file mt-3 align-center">
+                                    <div className="col-md-9">
+                                        <input onChange={e=> onFileChange(e)} type="file" className="custom-file-input" accept="image/png, image/jpeg"/>
+                                        <label htmlFor="image" className="custom-file-label">{fileName}</label>
+                                        {/* <small className="form-text text-muted ml-1 mt-0 mb-5">max size 3MB</small> */}
+                                    </div>
+                                    <div className="col-md-3">
+                                        <button onClick={()=> uploadPicture()} className="d-inline btn btn-dark">Upload</button>
+                                    </div>
                                 </div>
-                                    <small className="form-text text-muted ml-1 mt-0">max size 3MB</small>
-                                {/* {uploadedFile.filePath} */}
+                                {filePath? 
+                                    <img src={filePath} alt="profile_img"  width="100px" className="img-fluid rounded"/>
+                                    : <div></div>}
                                 <input onChange={e=> onChange(e)}  type="text" className="form-control mt-3" placeholder="Location" name="location"/>
                                 
                                 <label htmlFor="accept" className="mt-3 ml-4">
@@ -140,7 +163,8 @@ const Signup = ({formAlert, registerUser, alerts, isAuthenticated, fileUpload}) 
 
 const mapStateToProps = state => ({
     alerts: state.alerts,
-    isAuthenticated: state.user.isAuthenticated
+    isAuthenticated: state.user.isAuthenticated,
+    filePath: state.user.uploadedFile.filePath
 })
 
 export default connect(mapStateToProps, {formAlert, registerUser, fileUpload})(Signup);

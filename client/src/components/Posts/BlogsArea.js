@@ -1,50 +1,52 @@
-import React, {useEffect, Fragment} from 'react';
+import React, {useEffect, useState, Fragment} from 'react';
 import {connect} from 'react-redux';
 import {Link} from 'react-router-dom';
 import {getPosts} from '../../actions/posts';
 import Spinner from '../Spinner';
+import Moment from 'react-moment';
+
 
 const BlogsArea = ({posts, getPosts}) => {
 
     useEffect(() => {
         getPosts();
-    },[getPosts])
+    },[getPosts]);
 
-    // To display a media object type cards
-    const smallCard = (id, cover_img, title, created_date, user_name, user_profile_img) => {
+
+    const smallCard2 = (id, cover_img, title, created_date, user_name, desc) => {
         return(
-            <div key={id} className="d-flex m-3">
-                <div className='m-2'> 
-                    <img src={cover_img} alt="" className="img-fluid" style={imgStyle}/>
-                </div>
-                <div className='m-2'>
+            <div className="m-2 p-2 pb-3 border-bottom">
+                <li className="media mt-3">
+                <Link to={`/post/${id}`}>
+                    <img className="img-fluid mr-3" style={imgStyle} src={cover_img} />
+                </Link>
+                <div className="media-body">
+                    <Link to={`/post/${id}`} className="text-dark">
                     <h5>{title}</h5>
-                    <small className="text-muted">{created_date}</small>
-                    <div className="d-flex my-1">
-                        <div className="my-auto">
-                            <img src={user_profile_img} alt="" style={userImgStyle}/>
+                    </Link>
+                        {desc}
+                        <div className="d-flex align-items-center justify-content-between mt-4">
+                            <div>
+                                {/* <img src={user_profile_img} width="30px" alt="" className="img-fluid border rounded-circle"/> */}
+                                <small><em><div className="d-md-inline d-sm-block nav-link text-dark pl-1">{user_name}</div></em></small>
+                            </div>
+                            <div>
+                                <small><Moment format="MMM DD, YY">{created_date}</Moment></small>
+                                
+                            </div>
                         </div>
-                        <div>
-                            {user_name}
-                        </div>
-                    </div>
-                    <Link className="btn btn-outline-dark btn-sm" to={`/post/${id}`}> Read More</Link>
                 </div>
+                </li>
             </div>
         )
     }
 
     const imgStyle = {
-        width: 'auto',
-        height: 'auto',
-        maxWidth: '150px',
+        width: '100px',
+        height: '100px',
+        // maxWidth: '150px',
+        objectFit: 'cover',
         cursor: 'pointer'
-    }
-
-    const userImgStyle = {
-        width:'auto',
-        height:'auto',
-        maxWidth:'20px'
     }
 
 
@@ -56,7 +58,11 @@ const BlogsArea = ({posts, getPosts}) => {
             {posts.loading? <div> <Spinner /> </div>: 
                 <Fragment>
                 {posts.posts.map(post => (
-                    smallCard(post._id, post.cover_img, post.title, post.createdDate, post.user.firstName, post.user.profileImage)
+                    <div>
+                        {smallCard2(post._id, post.cover_img, post.title, post.createdDate, post.user.firstName+' '+post.user.lastName, 
+                        post.content.replace(/(<([^>]+)>)/ig,'').substr(0,50).replace(/\xA0/g,' ')+'...')
+                        }
+                    </div>
                 ))}
                 
                 </Fragment>
