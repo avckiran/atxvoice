@@ -1,13 +1,13 @@
-import React, {useEffect, useState, Fragment} from 'react';
+import React, {useEffect, Fragment} from 'react';
 import {connect} from 'react-redux';
 import {Link} from 'react-router-dom';
 import {getPosts} from '../../actions/posts';
 import Spinner from '../Spinner';
 import Moment from 'react-moment';
-import striptags from 'striptags';
 
 
-const BlogsArea = ({posts, getPosts}) => {
+
+const BlogsArea = ({posts, getPosts, isAuthenticated}) => {
 
     useEffect(() => {
         getPosts();
@@ -19,7 +19,7 @@ const BlogsArea = ({posts, getPosts}) => {
             <div className="m-2 p-2 pb-3 border-bottom">
                 <li className="media mt-3">
                 <Link to={`/post/${id}`}>
-                    <img className="img-fluid mr-3" style={imgStyle} src={cover_img} />
+                    <img className="img-fluid mr-3" style={imgStyle} src={cover_img} alt='blog cover' />
                 </Link>
                 <div className="media-body">
                     <Link to={`/post/${id}`} className="text-dark">
@@ -50,16 +50,19 @@ const BlogsArea = ({posts, getPosts}) => {
         cursor: 'pointer'
     }
 
+    const link = (
+        isAuthenticated ? '/post/new' : '/login'
+    )
 
     return (
         <div>
-            <div className="text-right">
-                <Link to="/post/new" className="btn btn-dark mb-3 align-right">Create New Post</Link>
+            <div className="text-left">
+                <Link to={link} className="btn btn-dark mb-3 align-left">Create New Post</Link>
             </div>
             {posts.loading? <div> <Spinner /> </div>: 
                 <Fragment>
-                {posts.posts.map(post => (
-                    <div>
+                {posts.posts.reverse().map(post => (
+                    <div key={post._id}>
                         {smallCard2(post._id, post.cover_img, post.title, post.createdDate, post.user.firstName+' '+post.user.lastName, 
                         post.content.replace(/(<([^>]+)>)/ig,'').substr(0,50).replace(/&.*;/g,'')+'...')
                         // striptags(post.content).substr(0,50)+'...')
@@ -79,7 +82,8 @@ const BlogsArea = ({posts, getPosts}) => {
 }
 
 const mapStateToProps = state => ({
-    posts: state.posts
+    posts: state.posts,
+    isAuthenticated: state.user.isAuthenticated
 })
 
 export default connect(mapStateToProps, {getPosts})(BlogsArea);

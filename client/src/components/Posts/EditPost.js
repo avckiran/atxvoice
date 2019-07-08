@@ -19,7 +19,7 @@ const EditPost = ({match, onePost, editPost}) => {
             cover_img: onePost? onePost.cover_img :'',
             content: onePost? onePost.content: ''
         })
-   },[setFormData])
+   },[setFormData, onePost])
 
 
     const contentUpdate = e => {
@@ -76,7 +76,7 @@ const EditPost = ({match, onePost, editPost}) => {
                         placeholder="write your text here..."
                         />
                 </div>
-                <button className="btn btn-outline-dark btn-block btn-sm mt-5">Submit</button>
+                <Link to="/"> <button className="btn btn-outline-dark btn-block btn-sm mt-5">Submit</button> </Link>
             </form>
         </div>
     )

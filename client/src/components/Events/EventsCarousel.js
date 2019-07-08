@@ -1,4 +1,4 @@
-import React, {useEffect, Fragment} from 'react';
+import React, {useEffect} from 'react';
 import {getEvents} from '../../actions/events';
 import {connect} from 'react-redux';
 import {Carousel} from 'react-bootstrap';
@@ -13,7 +13,7 @@ const EventsCarousel = ({events, getEvents}) => {
         if(events.loading){
             getEvents();
         }
-    },[getEvents])
+    },[getEvents, events.loading])
 
     const imgStyle = {
         "width":"100%",
@@ -39,7 +39,7 @@ const EventsCarousel = ({events, getEvents}) => {
            <div>
               {events.loading ? <Spinner /> : <Carousel>
                     {events.events.filter(event => event.venue.address.address_1).slice(0,5).map(event => (
-                          <Carousel.Item className="bg-dark">
+                          <Carousel.Item key={event.id} className="bg-dark">
                             <img 
                                 className="d-block w-100"
                                 src={event.logo.original.url? event.logo.original.url : ' '}
@@ -51,9 +51,9 @@ const EventsCarousel = ({events, getEvents}) => {
                                 <Link to="/events" className="text-white"><h3 className="mb-3">{event.name.text}</h3></Link>
                                 <div className="mb-2 d-flex justify-content-between">
                                     <div>
-                                    <i class="far fa-calendar-alt mr-2"></i><Moment format="MMM DD, YY - h:mm A">{event.start.local}</Moment>{` `}<span>{tzText(event.start.timezone)}</span>
+                                    <i className="far fa-calendar-alt mr-2"></i><Moment format="MMM DD, YY - h:mm A">{event.start.local}</Moment>{` `}<span>{tzText(event.start.timezone)}</span>
                                     </div>
-                                    <div><i class="fas fa-map-marker-alt mr-2"></i>{event.venue.address.address_1}</div>
+                                    <div><i className="fas fa-map-marker-alt mr-2"></i>{event.venue.address.address_1}</div>
                                 </div>
                             </Carousel.Caption>
                             

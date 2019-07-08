@@ -3,6 +3,7 @@ import {connect} from 'react-redux';
 import {getTwitterFeed} from '../actions/twitter';
 // import { TwitterTimelineEmbed, TwitterShareButton, TwitterFollowButton, TwitterHashtagButton, TwitterMentionButton, TwitterTweetEmbed, TwitterMomentShare, TwitterDMButton, TwitterVideoEmbed, TwitterOnAirButton } from 'react-twitter-embed';
 import { TwitterTweetEmbed } from 'react-twitter-embed';
+import Spinner from './Spinner'
 
 const TwitterFeed = ({tweets, getTwitterFeed}) => {
     useEffect(() => {
@@ -13,7 +14,7 @@ const TwitterFeed = ({tweets, getTwitterFeed}) => {
     
     return (
         <div>
-            {tweets.loading? <div> Loading... </div> : (
+            {tweets.loading? <Spinner /> : (
                 distinctTweetIds.map(id => (
                     <TwitterTweetEmbed key={id} tweetId={id} />
                 ))

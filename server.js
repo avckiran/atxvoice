@@ -21,6 +21,7 @@ app.use('/api/test', require('./routes/test'));
 app.use('/api/posts', require('./routes/posts'));
 app.use('/api/tweets', require('./routes/tweets'));
 app.use('/api/events', require('./routes/events'));
+app.use('/api/weather', require('./routes/weather'));
 
 
 //File Upload end point

@@ -8,18 +8,10 @@ import 'react-quill/dist/quill.snow.css';
 const Post = ({match, getPost, posts, userInfo, deletePost, likePost, addComment, deleteComment, isAuthenticated}) => {
     useEffect(()=>{
         getPost(match.params.id);
-    },[getPost])
+    },[getPost, match.params.id])
 
     const [comment, setComment] = useState('');
 
-    const postStyle = {
-        background: posts.onePost ? `url(${posts.onePost.cover_img})` : 'lightgrey',
-        // background:'lightgrey',
-        backgroundRepeat: 'no-repeat',
-        backgroundSize: 'cover' ,
-        // backgroundAttachment: 'fixed',
-        minHeight: '350px',
-    }
 
     const deleteCurrentPost = () => {
         if (window.confirm('Are you sure you wish to delete this item?')) {
@@ -30,10 +22,14 @@ const Post = ({match, getPost, posts, userInfo, deletePost, likePost, addComment
     const likeThisPost = () => {
         likePost(match.params.id);
     }
+
+
   
     const commentSubmit = e => {
         e.preventDefault();
-        addComment(match.params.id, comment);
+        if(isAuthenticated){
+            addComment(match.params.id, comment)
+        }
         setComment('');
     }
 
@@ -68,7 +64,7 @@ const Post = ({match, getPost, posts, userInfo, deletePost, likePost, addComment
              
                 </div>
 
-                <img src={posts.onePost.cover_img} className="img-fluid rounded mx-auto mt-4 mb-5 d-block w-100" style={{'objectFit': 'cover', 'maxHeight':'300px'}}alt="Responsive image"></img>
+                <img src={posts.onePost.cover_img} className="img-fluid rounded mx-auto mt-4 mb-5 d-block w-100" style={{'objectFit': 'cover', 'maxHeight':'300px'}}alt="Cover"></img>
                 <div className="mx-md-4" dangerouslySetInnerHTML={{ __html: posts.onePost.content }} />
                 <hr/>
                 {/* Like Post functionality  */}
@@ -109,7 +105,7 @@ const Post = ({match, getPost, posts, userInfo, deletePost, likePost, addComment
                 {/* Display comments */}
                 <div className="mt-3">
                 {posts.onePost.comments.map(comment => (
-                    <div className="card my-3">
+                    <div key={comment.id} className="card my-3">
                         <div className="card-header d-flex align-items-center bg-white border-bottom-0">
                             <div>
                                 <img src={comment.profile_img} width="30px" alt={comment.email} className="ml-2 img-fluid border border-dark rounded-circle"/>

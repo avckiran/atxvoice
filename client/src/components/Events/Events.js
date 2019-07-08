@@ -16,7 +16,7 @@ const Events = ({events, getEvents}) => {
         "width":"100%",
         // "width":"300px",
         "height":"200px",
-        "object-fit":"cover"
+        "objectFit":"cover"
     }
 
     const tzText = timezone => {
@@ -34,22 +34,22 @@ const Events = ({events, getEvents}) => {
     const eventCard = (title, img, desc, link, time, timezone, location) => (
         <div>
         {/* <div>Event Card - {title}</div> */}
-        <div class="card text-center mb-4">
-        <img class="card-img-top img-fluid" style={imgStyle} src={img} alt="" />
-        <div class="card-body">
-            <h4 class="card-title mb-3 pb-2 border-bottom">{title}</h4>
+        <div className="card text-center mb-4">
+        <img className="card-img-top img-fluid" style={imgStyle} src={img} alt="" />
+        <div className="card-body">
+            <h4 className="card-title mb-3 pb-2 border-bottom">{title}</h4>
             <div className="mb-2 text-muted text-left border-bottom">
-            <i class="far fa-calendar-alt mr-2"></i>
+            <i className="far fa-calendar-alt mr-2"></i>
             <Moment format="MMM DD, YY - h:mm A">{time}</Moment>{` `} <span>{tzText(timezone)}</span>
                 <br/>
-                <p><i class="fas fa-map-marker-alt mr-2"></i>{location}</p>
+                <p><i className="fas fa-map-marker-alt mr-2"></i>{location}</p>
             </div>
 
-            <p class="card-text text-left">{desc ? desc : ' '}</p>
+            <p className="card-text text-left">{desc ? desc : ' '}</p>
         </div>
     
         <div className="card-footer">
-            <a href={link} target="_blank">More Info</a>
+            <a href={link} target="_blank" rel="noopener noreferrer" >More Info</a>
         </div>
         </div>
         </div>

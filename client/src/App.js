@@ -12,7 +12,6 @@ import Navbar from './components/Navbar';
 import Post from './components/Posts/Post';
 import CreatePost from './components/Posts/CreatePost';
 import EditPost from './components/Posts/EditPost';
-import Footer from './components/Footer';
 import EditProfile from './components/Users/EditProfile';
 import Events from './components/Events/Events.js'
 

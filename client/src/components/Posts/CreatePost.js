@@ -4,6 +4,7 @@ import {connect} from 'react-redux';
 import {addPost} from '../../actions/posts';
 import {loadUser} from '../../actions/user';
 import 'react-quill/dist/quill.snow.css';
+import {Link} from 'react-router-dom';
 
 const CreatePost = ({addPost, loadUser}) => {
 
@@ -70,7 +71,7 @@ const CreatePost = ({addPost, loadUser}) => {
                     formats={formats}
                     placeholder="write your text here..."
                 />
-                <button className="btn btn-outline-dark btn-block btn-sm mt-5">Submit</button>
+                <Link to="/"> <button className="btn btn-outline-dark btn-block btn-sm mt-5">Submit</button> </Link>
             </form>
         </div>
     )

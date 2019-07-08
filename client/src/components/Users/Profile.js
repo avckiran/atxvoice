@@ -13,9 +13,6 @@ const Profile = ({user, deleteUser}) => {
         }
     }
 
-    const editCurrentUser = () => {
-        console.log("Edit user selected");
-    }
 
     return(
         <Fragment>
