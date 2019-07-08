@@ -8,12 +8,11 @@ import config from '../config/config'
 
 export const getCurrentWeather = (lat, long) => async dispatch => {
     try{
-        const darksky_key = config.darksky_key;
-        // delete axios.defaults.headers.common['x-auth-token'];
-        const res = await axios.get(`https://cors-anywhere.herokuapp.com/https://api.darksky.net/forecast/${darksky_key}/${lat},${long}`);
+        const body = {lat, long}
+        const res = await axios.get('/api/weather', body);
         dispatch({
             type:GET_CURRENT_WEATHER,
-            payload: res.data.currently
+            payload: res.data
         })
         
     }catch(err){
@@ -23,9 +22,12 @@ export const getCurrentWeather = (lat, long) => async dispatch => {
 
 export const getCity = (lat, long) => async dispatch => {
     try{
-        const res = await axios.get(`https://maps.googleapis.com/maps/api/geocode/json?latlng=${lat},${long}&key=${config.google_geocode_key}`)
-        const city = res.data.results[0].address_components[3].short_name;
-        const state= res.data.results[0].address_components[5].short_name;
+        const body = {lat, long}
+        // const res = await axios.get(`https://maps.googleapis.com/maps/api/geocode/json?latlng=${lat},${long}&key=${config.google_geocode_key}`)
+        const res = await axios.get('/api/weather/city', body);
+        const city = res.data.city;
+        const state= res.data.state;
+        console.log(res);
         dispatch({
             type: GET_CITY,
             payload: {

@@ -53,7 +53,9 @@ const EventsCarousel = ({events, getEvents}) => {
                                     <div>
                                     <i className="far fa-calendar-alt mr-2"></i><Moment format="MMM DD, YY - h:mm A">{event.start.local}</Moment>{` `}<span>{tzText(event.start.timezone)}</span>
                                     </div>
-                                    <div><i className="fas fa-map-marker-alt mr-2"></i>{event.venue.address.address_1}</div>
+                                    <div><i className="fas fa-map-marker-alt mr-2"></i>{
+                                        event.venue.address.address_1.length>30 ? event.venue.address.address_1.substr(0,30)+'...' : event.venue.address.address_1
+                                        }</div>
                                 </div>
                             </Carousel.Caption>
                             
