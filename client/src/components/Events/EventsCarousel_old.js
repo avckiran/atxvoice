@@ -1,7 +1,15 @@
-import React from 'react'
+import React, {useEffect} from 'react';
+import {getEvents} from '../../actions/events';
+import {connect} from 'react-redux';
 
-const Header = () => {
+const EventsCarousel = ({events, getEvents}) => {
 
+    useEffect(()=> {
+        if(events.loading){
+            getEvents();
+        }
+    },[getEvents])
+    
     const imgStyle = {
         'display':'block',
         'width': '1300px',
@@ -9,7 +17,6 @@ const Header = () => {
         'ObjectFit':'fill',
         'opacity':'0.5'
     }
-
 
     return (
        <header id="head-intro" className="container mt-4">
@@ -53,4 +60,9 @@ const Header = () => {
        </header>
     )
 }
-export default Header
+
+const mapStateToProps = state => ({
+    events: state.events
+})
+
+export default connect(mapStateToProps, {getEvents}) (EventsCarousel)

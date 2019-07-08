@@ -1,5 +1,5 @@
 import React, {Fragment, useEffect} from 'react'
-import Header from './Header';
+import EventsCarousel from './Events/EventsCarousel';
 import BlogsArea from './Posts/BlogsArea';
 import TwitterFeed from './TwitterFeed';
 import {loadUser} from '../actions/user';
@@ -17,7 +17,7 @@ const Layout = ({loadUser, isAuthenticated, getPosts, unloadCurrentPost}) => {
 
     return (
         <Fragment>
-            <Header />
+            <EventsCarousel />
             <div className="container">
                 <div className="row">
                     <div className="col-sm-12 col-md-9 p-sm-2 p-md-5">
