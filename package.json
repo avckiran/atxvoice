@@ -9,13 +9,16 @@
   "author": "Chandra Kiran Achanta",
   "license": "ISC",
   "dependencies": {
+    "axios": "^0.19.0",
     "bcryptjs": "^2.4.3",
+    "eventbrite": "^1.2.1",
     "express": "^4.17.1",
     "express-fileupload": "^1.1.5",
     "express-validator": "^5.3.1",
     "gravatar": "^1.8.0",
     "jsonwebtoken": "^8.5.1",
     "mongoose": "^5.5.14",
+    "striptags": "^3.1.1",
     "twitter": "^1.7.1",
     "uuid": "^3.3.2"
   },

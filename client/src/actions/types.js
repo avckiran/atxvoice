@@ -21,6 +21,7 @@ export const UNKNOWN_ERROR = 'UNKNOWN_ERROR';
 export const COMMENT_ADDED = 'COMMENT_ADDED';
 export const COMMENT_DELETED = 'COMMENT_DELETED';
 export const FILE_UPLOADED = 'FILE_UPLOADED';
+export const GET_EVENTS = 'GET_EVENTS';
 
 
 

@@ -9,7 +9,7 @@ h4 {
     font-family: quicksand;
 }
 
-#head-intro{
+/* #head-intro{
     background:url('./assets/capitol.jpeg');
     background-repeat: no-repeat;
     background-size: cover;
@@ -19,9 +19,9 @@ h4 {
 
 #head-intro .dark-overlay{
     /* position: absolute; */
-    top:0;
+    /* top:0;
     left:0;
     width:100%;
     min-height:200px;
     background: rgba(0,0,0,0.7)
-}
+}  */

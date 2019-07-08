@@ -14,6 +14,7 @@ import CreatePost from './components/Posts/CreatePost';
 import EditPost from './components/Posts/EditPost';
 import Footer from './components/Footer';
 import EditProfile from './components/Users/EditProfile';
+import Events from './components/Events/Events.js'
 
 
 const App = () => {
@@ -30,6 +31,7 @@ const App = () => {
                     <Route exact path='/post/:id' component={Post} />
                     <Route exact path='/post/edit/:id' component={EditPost} />
                     <Route exact path='/me/edit' component={EditProfile} />
+                    <Route exact path="/events" component={Events} />
                 </Switch>
             {/* <Footer /> */}
             </Router>

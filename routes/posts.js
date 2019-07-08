@@ -5,7 +5,9 @@ const User = require('../models/User');
 const Posts = require('../models/Posts');
 const DeletedPosts = require('../models/DeletedPosts');
 const {check, validationResult} = require('express-validator/check');
-const uuid = require('uuid')
+const uuid = require('uuid');
+const striptags = require('striptags');
+
 
 router.post('/', [auth,[
     check('title', 'Title cannot be empty').not().isEmpty(),

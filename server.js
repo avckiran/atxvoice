@@ -20,6 +20,7 @@ app.use('/api/user', require('./routes/user'));
 app.use('/api/test', require('./routes/test'));
 app.use('/api/posts', require('./routes/posts'));
 app.use('/api/tweets', require('./routes/tweets'));
+app.use('/api/events', require('./routes/events'));
 
 
 //File Upload end point

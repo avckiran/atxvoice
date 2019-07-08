@@ -4,6 +4,7 @@ import {Link} from 'react-router-dom';
 import {getPosts} from '../../actions/posts';
 import Spinner from '../Spinner';
 import Moment from 'react-moment';
+import striptags from 'striptags';
 
 
 const BlogsArea = ({posts, getPosts}) => {
@@ -24,7 +25,7 @@ const BlogsArea = ({posts, getPosts}) => {
                     <Link to={`/post/${id}`} className="text-dark">
                     <h5>{title}</h5>
                     </Link>
-                        {desc}
+                        <p> {desc} </p>
                         <div className="d-flex align-items-center justify-content-between mt-4">
                             <div>
                                 {/* <img src={user_profile_img} width="30px" alt="" className="img-fluid border rounded-circle"/> */}
@@ -60,7 +61,10 @@ const BlogsArea = ({posts, getPosts}) => {
                 {posts.posts.map(post => (
                     <div>
                         {smallCard2(post._id, post.cover_img, post.title, post.createdDate, post.user.firstName+' '+post.user.lastName, 
-                        post.content.replace(/(<([^>]+)>)/ig,'').substr(0,50).replace(/\xA0/g,' ')+'...')
+                        post.content.replace(/(<([^>]+)>)/ig,'').substr(0,50).replace(/&.*;/g,'')+'...')
+                        // striptags(post.content).substr(0,50)+'...')
+                        // replace(/(<([^>]+)>)/ig,'')
+                        // replace(/<[^>]+>/g, '')
                         }
                     </div>
                 ))}
