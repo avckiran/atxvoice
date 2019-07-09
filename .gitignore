@@ -1,3 +1,5 @@
-node_modules/
-config/
-client/src/config/
+/node_modules
+/client/node_modules
+package-lock.json
+/config/
+/client/src/config/

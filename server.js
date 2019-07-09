@@ -2,18 +2,15 @@ const express = require('express');
 const connectDB = require('./config/db');
 const fileUpload = require('express-fileupload');
 const app = express();
+const path = require('path');
 
 //configuring middleware for body-parser
 app.use(express.json({extended:false}));
 app.use(fileUpload());
-
+app.use(express.static(path.join(__dirname, "client/build")))
 //connect Database
 connectDB();
 
-// root route
-app.get('/', (req,res) =>{
-    res.send("API is running");
-})
 
 //Route Definitions
 app.use('/api/user', require('./routes/user'));
