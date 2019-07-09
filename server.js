@@ -47,6 +47,9 @@ if(process.env.NODE_ENV === 'production') {
     })
 }
 
+app.use(express.static(path.join(__dirname, "client/build")))
+
+
 
 // //Unhandled Route
 // app.get('*', (req,res)=>{
