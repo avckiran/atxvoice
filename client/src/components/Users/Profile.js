@@ -29,8 +29,8 @@ const Profile = ({user, deleteUser}) => {
                         <p><span className="h6">Email: </span>{user.userInfo.email}</p>
                     </div>
                     <div>
-                        <img src={user.userInfo.profileImage} alt="profile_img"  width="100px" className="img-fluid rounded"/>
-                        <button className="btn btn-outline-dark btn-block btn-sm mt-3">Change</button>
+                        <img src={user.userInfo.profileImage} alt="profile_img"  width="150px" className="img-fluid rounded"/>
+                        {/* <button className="btn btn-outline-dark btn-block btn-sm mt-3">Change</button> */}
                     </div>
                 </div>
                 <hr/>

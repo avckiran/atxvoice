@@ -25,7 +25,7 @@ const BlogsArea = ({posts, getPosts, isAuthenticated}) => {
                     <Link to={`/post/${id}`} className="text-dark">
                     <h5>{title}</h5>
                     </Link>
-                        <p> {desc} </p>
+                        <p className="text-muted" style={{'fontSize':'0.9rem'}}> {desc} </p>
                         <div className="d-flex align-items-center justify-content-between mt-4">
                             <div>
                                 {/* <img src={user_profile_img} width="30px" alt="" className="img-fluid border rounded-circle"/> */}
@@ -47,6 +47,7 @@ const BlogsArea = ({posts, getPosts, isAuthenticated}) => {
         height: '100px',
         // maxWidth: '150px',
         objectFit: 'cover',
+        objectPosition:'0 0',
         cursor: 'pointer'
     }
 
@@ -64,7 +65,7 @@ const BlogsArea = ({posts, getPosts, isAuthenticated}) => {
                 {posts.posts.reverse().map(post => (
                     <div key={post._id}>
                         {smallCard2(post._id, post.cover_img, post.title, post.createdDate, post.user.firstName+' '+post.user.lastName, 
-                        post.content.replace(/(<([^>]+)>)/ig,'').substr(0,50).replace(/&.*;/g,'')+'...')
+                        post.content.replace(/(<([^>]+)>)/ig,'').substr(0,100).replace(/&.*;/g,'')+'...')
                         // striptags(post.content).substr(0,50)+'...')
                         // replace(/(<([^>]+)>)/ig,'')
                         // replace(/<[^>]+>/g, '')

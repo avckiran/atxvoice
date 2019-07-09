@@ -65,6 +65,7 @@ export const addPost = (formData, cover_img) => async dispatch => {
 
 export const editPost = (postId, formData) => async dispatch => {
     try{
+        // console.log(formData);
         await axios.put(`/api/posts/${postId}`, formData)
         dispatch({
             type: POST_UPDATED,

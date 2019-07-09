@@ -37,6 +37,25 @@ const Post = ({match, getPost, posts, userInfo, deletePost, likePost, addComment
         deleteComment(match.params.id, comment_id)
     }
 
+      
+    const imgCropper = {
+        "width": "35px",
+        "height": "35px",
+        "position": "relative",
+        "overflow": "hidden",
+        "borderRadius": "50%"
+    }
+
+    const profilePic = {
+        "display": "inline",
+        // "margin": "0 auto",
+        // "marginLeft": "-25%", //centers the image
+        "marginLeft": "0.5rem",
+        "height": "40px",
+        "width": "40px",
+        "objectFit":"cover",
+        "borderRadius":"50%"
+    }
 
     return (
         <div className="container mt-3">
@@ -64,16 +83,16 @@ const Post = ({match, getPost, posts, userInfo, deletePost, likePost, addComment
              
                 </div>
 
-                <img src={posts.onePost.cover_img} className="img-fluid rounded mx-auto mt-4 mb-5 d-block w-100" style={{'objectFit': 'cover', 'maxHeight':'300px'}}alt="Cover"></img>
+                <img src={posts.onePost.cover_img} className="img-fluid rounded mx-auto mt-4 mb-5 d-block w-100" style={{'objectFit': 'cover', 'maxHeight':'400px', 'objectPosition': '0 0'}}alt="Cover"></img>
                 <div className="mx-md-4" dangerouslySetInnerHTML={{ __html: posts.onePost.content }} />
                 <hr/>
                 {/* Like Post functionality  */}
                 <div className="d-flex align-items-center justify-content-between">
                     <div>
-                        Likes : {posts.onePost.likes.length}
-                        <div>
+                        <strong>Likes : {posts.onePost.likes.length}</strong>
+                        <div className="mt-2">
                             {posts.onePost.likes.map(like => (
-                                <img key={like.user} src={like.profile_img} width="20px" alt={like.email} className="ml-2 img-fluid border border-dark rounded-circle"/>
+                                <img key={like.user} src={like.profile_img} width="20px" alt={like.email} className="border" style={profilePic}/> 
                             ))}
                         </div>
                     </div>
@@ -83,8 +102,10 @@ const Post = ({match, getPost, posts, userInfo, deletePost, likePost, addComment
                                 <button onClick={likeThisPost} className="btn btn-outline-danger btn-sm">Unlike</button>
                             </div>
                         ) : ( 
-                        <button onClick={likeThisPost} className="btn btn-outline-dark btn-sm">Like this post</button>
+                        <button onClick={likeThisPost} className="btn btn-outline-dark btn-sm" disabled={!isAuthenticated}>Like this post</button>
+                        
                         ) }
+                        {/* {isAuthenticated ? <div></div>: <p className="text-center"><small>Please login to like this post</small></p>} */}
                     </div>
                 </div>
                 <hr/>
@@ -97,9 +118,10 @@ const Post = ({match, getPost, posts, userInfo, deletePost, likePost, addComment
                             name="comment" 
                             value={comment}
                             onChange = {e => setComment(e.target.value)}
+                            placeholder={isAuthenticated ? "Please enter comment" : "Please login to add comment"}
                             rows="2"></textarea>
                     </div>
-                    <button className="btn btn-outline-dark btn-sm">Add Comment</button>
+                    <button className="btn btn-outline-dark btn-sm" disabled={!isAuthenticated} >Add Comment</button>
                 </form>
                 
                 {/* Display comments */}
@@ -107,9 +129,7 @@ const Post = ({match, getPost, posts, userInfo, deletePost, likePost, addComment
                 {posts.onePost.comments.map(comment => (
                     <div key={comment.id} className="card my-3">
                         <div className="card-header d-flex align-items-center bg-white border-bottom-0">
-                            <div>
-                                <img src={comment.profile_img} width="30px" alt={comment.email} className="ml-2 img-fluid border border-dark rounded-circle"/>
-                            </div>
+                                <img src={comment.profile_img} width="30px" alt={comment.email} className="border" style={profilePic}/>
                             <div className="ml-3">
                                 <span><small className="text-muted">{comment.name} <br/>
                                 <Moment parse="x" format="MMM DD, h:MM A"> {comment.created_date} </Moment>

@@ -28,6 +28,7 @@ const EditPost = ({match, onePost, editPost}) => {
 
     const formSubmit = e => {
         e.preventDefault();
+        // console.log(formData);
         editPost(match.params.id, formData);
     }
 
@@ -76,7 +77,9 @@ const EditPost = ({match, onePost, editPost}) => {
                         placeholder="write your text here..."
                         />
                 </div>
-                <Link to="/"> <button className="btn btn-outline-dark btn-block btn-sm mt-5">Submit</button> </Link>
+                {/* <Link to="/">  */}
+                <button className="btn btn-outline-dark btn-block btn-sm mt-5">Submit</button> 
+                {/* </Link> */}
             </form>
         </div>
     )
