@@ -15,7 +15,7 @@ router.post('/', [auth,[
     ]], async(req,res)=>{
     const errors = validationResult(req);
     if(!errors.isEmpty()){
-        return res.status(400).json({errors:errors.array()});
+        return res.json({status:400, errors:errors.array()});
     }
     const {title, content, cover_img, likes, comments}= req.body;
     try{

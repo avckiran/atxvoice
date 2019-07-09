@@ -6,10 +6,18 @@ import {
     POST_LIKED,
     POST_UNLIKED,
     COMMENT_ADDED,
-    COMMENT_DELETED
+    COMMENT_DELETED,
+    COVER_IMG_UPLOADED
 } from '../actions/types';
 
-const initialState = {loading: true}
+const initialState = {
+    loading: true,
+    coverImgUploaded: false,
+    coverImgDetails:{
+        filePath:'',
+        fileName:''
+    }
+}
 
 export default function(state=initialState, action){
     const {type, payload} = action;
@@ -49,6 +57,13 @@ export default function(state=initialState, action){
                 onePost: payload
             }
         
+        case COVER_IMG_UPLOADED:
+            return{
+                ...state,
+                coverImgUploaded: true,
+                coverImgDetails: payload
+            }
+
         default: return state
     }
 }

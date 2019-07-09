@@ -35,6 +35,21 @@ const Navbar = ({weather, location, getCurrentWeather, getCity, isAuthenticated,
         </ul>
     )
     
+    const imgCropper = {
+        "width": "35px",
+        "height": "35px",
+        "position": "relative",
+        "overflow": "hidden",
+        "borderRadius": "50%"
+    }
+
+    const profilePic = {
+        "display": "inline",
+        "margin": "0 auto",
+        "marginLeft": "-25%", //centers the image
+        "height": "100%",
+        "width": "auto"
+    }
 
 
     const authLinks = (
@@ -42,8 +57,8 @@ const Navbar = ({weather, location, getCurrentWeather, getCity, isAuthenticated,
             <li className="nav-item mr-3 align-items-center">
             <div className="d-flex align-items-center justify-content-center">
                 <div className="text-right">
-                
-                    { (!loading) ? <img src={userInfo.profileImage} width="30px" alt="" className="img-fluid border rounded-circle"/> : <i className="fas fa-user" />}
+                    {/* { (!loading) ? <div style={imgCropper}> <img src={userInfo.profileImage} width="30px" alt="" className="img-fluid border rounded-circle"/> </div> : <i className="fas fa-user" />} */}
+                    { (!loading) ? <div style={imgCropper}> <img src={userInfo.profileImage} style={profilePic} width="30px" alt="" className="border"/> </div> : <i className="fas fa-user" />}
                 </div>
                 <div>
                     <Link to="/me" className="d-md-inline d-sm-block nav-link text-dark">{ !loading ? userInfo.firstName : ''}</Link>

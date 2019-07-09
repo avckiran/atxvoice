@@ -27,7 +27,7 @@ export const getCity = (lat, long) => async dispatch => {
         const res = await axios.get('/api/weather/city', body);
         const city = res.data.city;
         const state= res.data.state;
-        console.log(res);
+        // console.log(res);
         dispatch({
             type: GET_CITY,
             payload: {

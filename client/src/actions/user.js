@@ -30,14 +30,16 @@ export const formAlert = msg => async dispatch => {
 
 // To register a new Users
 // TODO: need to securely send the form data. 
-export const registerUser = data => async dispatch => {
+export const registerUser = (data, profileImage) => async dispatch => {
     if(data){
         try{
             const config = {
                 headers:{'Content-Type': 'application/json'}
             }
             const{firstName, lastName, email, password, bio, interests, location } = data;
-            const body = JSON.stringify({firstName, lastName, email, password, bio, interests, location});
+            const body = JSON.stringify({firstName, lastName, email, password, bio, interests, profileImage, location});
+            console.log(body);
+            // const res = {data:{errors:[0]}};
             const res = await axios.post('/api/user', body, config);
             const errors = res.data.errors;
             if(!errors){

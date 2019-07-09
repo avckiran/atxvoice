@@ -9,6 +9,7 @@ import {
     POST_UNLIKED,
     COMMENT_ADDED,
     COMMENT_DELETED,
+    COVER_IMG_UPLOADED,
     UNKNOWN_ERROR
 } from './types';
 import axios from 'axios';
@@ -44,15 +45,19 @@ export const unloadCurrentPost = () => async dispatch => {
     })
 }
 
-export const addPost = formData => async dispatch => {
+export const addPost = (formData, cover_img) => async dispatch => {
     if(formData){
         try{
-            await axios.post('/api/posts', formData)
+            const {title, content} = formData;
+            const body = {title, content, cover_img}
+            console.log(body);
+            const res = await axios.post('/api/posts', body)
+            console.log(res);
             dispatch({
                 type: POST_ADDED
             })
         }catch(err){
-            console.log(err);
+            console.error(err.message);
         }
     }
     
@@ -140,6 +145,27 @@ export const deleteComment = (postId, commentId) => async dispatch => {
             dispatch({
                 type: COMMENT_DELETED,
                 payload: post.data
+            })
+        }
+    }catch(err){
+        console.log(err);
+    }
+}
+
+// Cover Image upload
+export const coverImgUpload = file => async dispatch => {
+    const coverImg = new FormData();
+    if(file){coverImg.append('file', file)};
+    try{
+        const res = await axios.post('/upload',coverImg, {
+            headers:{
+                'Content-Type': 'multipart/form-data'
+            }
+        })
+        if(res.data.fileName){
+            dispatch({
+                type:COVER_IMG_UPLOADED,
+                payload: res.data
             })
         }
     }catch(err){

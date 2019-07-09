@@ -14,7 +14,7 @@ const Signup = ({formAlert, registerUser, alerts, isAuthenticated, fileUpload, f
         password2:'',
         bio:'',
         interests:'',
-        picture:'',
+        picture:filePath,
         location:'',
         submitBtn:false
     })
@@ -26,7 +26,8 @@ const Signup = ({formAlert, registerUser, alerts, isAuthenticated, fileUpload, f
     const {password, password2} = formData;
 
     const onChange = e =>{
-        setFormData({...formData, [e.target.name]:e.target.value})
+        // console.log(formData);
+        setFormData({...formData, [e.target.name]:e.target.value});
     }
 
     const onFileChange = e => {
@@ -36,15 +37,12 @@ const Signup = ({formAlert, registerUser, alerts, isAuthenticated, fileUpload, f
     
     // console.log("file", file);
    
-    const uploadPicture = () => {
-        const uploadFileName = Date.now()+'_'+fileName;
-        const uploadFilePath=`/uploads/${uploadFileName}`;
-        setFormData({...formData, picture: uploadFilePath});
-        fileUpload(file);
+    const uploadPicture = e => {
+       fileUpload(file);
     }
    
     
-    const formSubmit = async e => {
+    const formSubmit = e => {
         e.preventDefault();
         if(password !== password2) {
             formAlert("Passwords didn't match"); 
@@ -57,12 +55,11 @@ const Signup = ({formAlert, registerUser, alerts, isAuthenticated, fileUpload, f
                 window.scrollTo(10,30);
                 return null;
             }
-            // fileUpload(file);
-            // console.log(formData);
-            registerUser(formData);
-        }else{
-            registerUser(formData);
+            // registerUser(formData);
         }
+        // setFormData({...formData, picture: filePath})
+        // console.log(formData);
+        registerUser(formData, filePath);
 
     }
 
@@ -88,16 +85,14 @@ const Signup = ({formAlert, registerUser, alerts, isAuthenticated, fileUpload, f
                             <h3 className="text-center">Please fill out the form</h3>
                             <hr/>
                             {alerts.map(alert => (<Alert key={alert.id} alert={alert}/>))}
-                          
-                            
-
+                            {/* Form Begins */}
                             <form onSubmit={e=> formSubmit(e)}>
                                 <div className="row">
                                     <div className="col-md-6">
                                         <input onChange={e=> onChange(e)} type="text" className="form-control mt-3" placeholder="First Name*" name="firstName" required />
                                     </div>
                                     <div className="col-md-6">
-                                        <input onChange={e=> onChange(e)}  type="text" className="form-control mt-3" placeholder="Last Name" name="lastName"  />
+                                        <input onChange={e=> onChange(e)} type="text" className="form-control mt-3" placeholder="Last Name" name="lastName"  />
                                     </div>
                                 </div>
                                 <input onChange={e=> onChange(e)}  type="email" className="form-control mt-3" placeholder="Email address*" name="email" required />
@@ -107,20 +102,22 @@ const Signup = ({formAlert, registerUser, alerts, isAuthenticated, fileUpload, f
                                 <textarea onChange={e=> onChange(e)}  className="form-control mt-3" placeholder="Tell us a few lines about you!" name="bio"></textarea>
                                 <input onChange={e=> onChange(e)}  type="text" className="form-control mt-3" placeholder="Your interests" name="interests" />
                                     <small className="form-text text-muted ml-1 mt-0">separate by comma</small>
+                                    {/* File Upload input starts */}
                                 <div className="d-flex custom-file mt-3 align-center">
                                     <div className="col-md-9">
-                                        <input onChange={e=> onFileChange(e)} type="file" className="custom-file-input" accept="image/png, image/jpeg"/>
+                                        <input onChange={e=> onFileChange(e)} name="picture" type="file" className="custom-file-input"  accept="image/png, image/jpeg"/>
                                         <label htmlFor="image" className="custom-file-label">{fileName}</label>
                                         {/* <small className="form-text text-muted ml-1 mt-0 mb-5">max size 3MB</small> */}
                                     </div>
                                     <div className="col-md-3">
-                                        <button onClick={()=> uploadPicture()} className="d-inline btn btn-dark">Upload</button>
+                                        <button type="button" onClick={uploadPicture} className="d-inline btn btn-dark">Upload</button>
                                     </div>
                                 </div>
+                                {/* Picture display */}
                                 {filePath? 
                                     <img src={filePath} alt="profile_img"  width="100px" className="img-fluid rounded"/>
                                     : <div></div>}
-                                <input onChange={e=> onChange(e)}  type="text" className="form-control mt-3" placeholder="Location" name="location"/>
+                                <input onChange={e=> onChange(e)} type="text" className="form-control mt-3" placeholder="Location" name="location"/>
                                 
                                 <label htmlFor="accept" className="mt-3 ml-4">
                                     <input type="checkbox" 
