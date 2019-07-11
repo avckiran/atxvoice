@@ -58,7 +58,7 @@ const BlogsArea = ({posts, getPosts, isAuthenticated}) => {
     return (
         <div>
             <div className="text-left">
-                <Link to={link} className="btn btn-dark mb-3 align-left">Create New Post</Link>
+                <Link to={link} className="btn btn-dark mb-3 align-left mt-4">Create New Post</Link>
             </div>
             {posts.loading? <div> <Spinner /> </div>: 
                 <Fragment>
