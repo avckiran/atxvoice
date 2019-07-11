@@ -8,6 +8,7 @@ const path = require('path');
 app.use(express.json({extended:false}));
 app.use(fileUpload());
 app.use(express.static(path.join(__dirname, "client/build")))
+
 //connect Database
 connectDB();
 

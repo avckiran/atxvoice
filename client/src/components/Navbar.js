@@ -13,17 +13,17 @@ import {logout, loadUser} from '../actions/user';
 
 const Navbar = ({weather, location, getCurrentWeather, getCity, isAuthenticated, logout, loadUser, loading, userInfo}) => {
 
-    useEffect(()=>{
-            navigator.geolocation.getCurrentPosition(
-                position => {
-                    const {latitude, longitude} = position.coords;
-                    getCurrentWeather(latitude, longitude);
-                    getCity(latitude, longitude);
-                },
-                err => console.log(err)
-            );
-            if(localStorage.getItem('token')) loadUser();
-    },[getCurrentWeather, getCity, loadUser])
+    // useEffect(()=>{
+    //         navigator.geolocation.getCurrentPosition(
+    //             position => {
+    //                 const {latitude, longitude} = position.coords;
+    //                 getCurrentWeather(latitude, longitude);
+    //                 getCity(latitude, longitude);
+    //             },
+    //             err => console.log(err)
+    //         );
+    //         if(localStorage.getItem('token')) loadUser();
+    // },[getCurrentWeather, getCity, loadUser])
 
     // console.log(isAuthenticated);
 
