@@ -13,17 +13,20 @@ import {logout, loadUser} from '../actions/user';
 
 const Navbar = ({weather, location, getCurrentWeather, getCity, isAuthenticated, logout, loadUser, loading, userInfo}) => {
 
-    // useEffect(()=>{
-    //         navigator.geolocation.getCurrentPosition(
-    //             position => {
-    //                 const {latitude, longitude} = position.coords;
-    //                 getCurrentWeather(latitude, longitude);
-    //                 getCity(latitude, longitude);
-    //             },
-    //             err => console.log(err)
-    //         );
-    //         if(localStorage.getItem('token')) loadUser();
-    // },[getCurrentWeather, getCity, loadUser])
+    useEffect(()=>{
+            let latitude = '30.26715';
+            let longitude = '-97.74306';
+            navigator.geolocation.getCurrentPosition(
+                position => {
+                    latitude = position.coords.latitude;
+                    longitude = position.coords.longitude;
+                },
+                err => console.log(err)
+            );
+            getCurrentWeather(latitude, longitude);
+            getCity(latitude, longitude);
+            if(localStorage.getItem('token')) loadUser();
+    },[getCurrentWeather, getCity, loadUser])
 
     // console.log(isAuthenticated);
 
