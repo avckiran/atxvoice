@@ -1,7 +1,7 @@
-import React, {Fragment} from 'react';
-import {connect} from 'react-redux';
-import {Link} from 'react-router-dom';
-import {deleteUser} from '../../actions/user';
+import React, { Fragment } from 'react';
+import { connect } from 'react-redux';
+import { Link } from 'react-router-dom';
+import { deleteUser } from '../../actions/user';
 import Spinner from '../../components/Spinner';
 
 
