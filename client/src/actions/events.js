@@ -7,7 +7,7 @@ import axios from 'axios';
 export const getEvents = () => async dispatch => {
     try{
         const res = await axios.get('/api/events/');
-        // console.log("action data", res.data);
+        console.log("events data", res.data);
 
         if(res){
             dispatch({

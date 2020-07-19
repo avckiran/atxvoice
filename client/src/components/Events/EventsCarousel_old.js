@@ -5,7 +5,7 @@ import {connect} from 'react-redux';
 const EventsCarousel = ({events, getEvents}) => {
 
     useEffect(()=> {
-        if(events.loading){
+        if(!events.loading){
             getEvents();
         }
     },[getEvents])

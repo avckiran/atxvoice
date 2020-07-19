@@ -1,10 +1,10 @@
 import React, {useEffect} from 'react';
-import {getEvents} from '../../actions/events';
-import {connect} from 'react-redux';
-import {Carousel} from 'react-bootstrap';
-import Spinner from '../Spinner';
+import { connect } from 'react-redux';
+import { Carousel } from 'react-bootstrap';
+import { Link } from 'react-router-dom';
 import Moment from 'react-moment';
-import {Link} from 'react-router-dom';
+import { getEvents } from '../../actions/events';
+import Spinner from '../Spinner';
 
 
 const EventsCarousel = ({events, getEvents}) => {
@@ -23,6 +23,7 @@ const EventsCarousel = ({events, getEvents}) => {
         "opacity": "0.5"
     }
 
+
     const tzText = timezone => {
         switch(timezone){
             case 'America/Chicago' : return 'CT'
@@ -33,6 +34,8 @@ const EventsCarousel = ({events, getEvents}) => {
             default : return 'UNK'
         }
     }
+
+    if (events.events.length === 0) return null;
 
     return (
        <header id="head-intro" className="container mt-4">

@@ -37,15 +37,6 @@ const Post = ({match, getPost, posts, userInfo, deletePost, likePost, addComment
         deleteComment(match.params.id, comment_id)
     }
 
-      
-    const imgCropper = {
-        "width": "35px",
-        "height": "35px",
-        "position": "relative",
-        "overflow": "hidden",
-        "borderRadius": "50%"
-    }
-
     const profilePic = {
         "display": "inline",
         // "margin": "0 auto",

@@ -12,6 +12,8 @@ const Events = ({events, getEvents}) => {
         getEvents();
     },[getEvents])
 
+    console.log(events);
+    
     const imgStyle={
         "width":"100%",
         // "width":"300px",

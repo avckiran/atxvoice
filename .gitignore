@@ -3,3 +3,4 @@
 package-lock.json
 /config/
 /client/src/config/
+/client/build/

@@ -3,17 +3,19 @@ const connectDB = require('./config/db');
 const fileUpload = require('express-fileupload');
 const app = express();
 const path = require('path');
+const cors = require('cors');
 
 //configuring middleware for body-parser
 app.use(express.json({extended:false}));
 app.use(fileUpload());
-app.use(express.static(path.join(__dirname, "client/build")))
+app.use(cors());
+// app.use(express.static(path.join(__dirname, "client/build")))
 
 //connect Database
 connectDB();
 
-app.get('/', (req,res) =>{
-    res.send("API is running");
+app.get('/', (req, res, next) =>{
+    res.json({ foo: 'bar' });
 })
 
 //Route Definitions
@@ -21,7 +23,7 @@ app.use('/api/user', require('./routes/user'));
 app.use('/api/test', require('./routes/test'));
 app.use('/api/posts', require('./routes/posts'));
 app.use('/api/tweets', require('./routes/tweets'));
-app.use('/api/events', require('./routes/events'));
+// app.use('/api/events', require('./routes/events'));
 app.use('/api/weather', require('./routes/weather'));
 
 
@@ -42,12 +44,14 @@ app.post('/upload', (req,res)=>{
     });
 })
 
+console.log(process.env);
 
-//Unhandled Route
-app.get('*', (req,res)=>{
-    res.status(404).json({ msg: "Unhandled Route, 404 Not found!"});
-})
+// //Unhandled Route
+// app.get('*', (req,res)=>{
+//     res.status(404).json({ msg: "Unhandled Route, 404 Not found!"});
+// })
 
 //Starting server
 const PORT = process.env.PORT || 5000;
+// const PORT = 3000;
 app.listen(PORT, ()=> console.log(`Server started on port ${PORT}`));

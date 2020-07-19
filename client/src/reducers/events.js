@@ -14,7 +14,7 @@ export default function(state=initialState, action){
         case GET_EVENTS : 
             return{
                 ...state,
-                events: payload,
+                events: payload || [],
                 loading: false
             }
         default: return state
