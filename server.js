@@ -4,50 +4,44 @@ const fileUpload = require('express-fileupload');
 const app = express();
 const path = require('path');
 
-//configuring middleware for body-parser
 app.use(express.json({extended:false}));
 app.use(fileUpload());
-app.use(express.static(path.join(__dirname, "client/build")))
+// app.use(express.static(path.join(__dirname, "client/build")));
+app.use(express.static(path.join(__dirname, '/public')));
 
-//connect Database
 connectDB();
 
 app.get('/', (req,res) =>{
-    res.send("API is running");
+    res.render('index.html');
 })
 
-//Route Definitions
-app.use('/api/user', require('./routes/user'));
-app.use('/api/test', require('./routes/test'));
-app.use('/api/posts', require('./routes/posts'));
-app.use('/api/tweets', require('./routes/tweets'));
-app.use('/api/events', require('./routes/events'));
-app.use('/api/weather', require('./routes/weather'));
+// app.use('/api/user', require('./routes/user'));
+// app.use('/api/test', require('./routes/test'));
+// app.use('/api/posts', require('./routes/posts'));
+// app.use('/api/tweets', require('./routes/tweets'));
+// app.use('/api/events', require('./routes/events'));
+// app.use('/api/weather', require('./routes/weather'));
 
 
-//File Upload end point
 
-app.post('/upload', (req,res)=>{
-    if(req.files === null){
-        return res.json({status:400, msg: "No file uploaded"})
-    }
-    const file = req.files.file;
-    const fileName = Date.now()+'_'+file.name;
-    file.mv(`${__dirname}/client/public/uploads/${fileName}`, err => {
-        if(err){
-            console.error(err);
-            return res.status(500).send(err);
-        }
-        res.json({fileName: file.name, filePath: `/uploads/${fileName}`});
-    });
-})
+// app.post('/upload', (req,res)=>{
+//     if(req.files === null){
+//         return res.json({status:400, msg: "No file uploaded"})
+//     }
+//     const file = req.files.file;
+//     const fileName = Date.now()+'_'+file.name;
+//     file.mv(`${__dirname}/client/public/uploads/${fileName}`, err => {
+//         if(err){
+//             console.error(err);
+//             return res.status(500).send(err);
+//         }
+//         res.json({fileName: file.name, filePath: `/uploads/${fileName}`});
+//     });
+// })
 
-
-//Unhandled Route
 app.get('*', (req,res)=>{
-    res.status(404).json({ msg: "Unhandled Route, 404 Not found!"});
+    res.status(404).send('Page Not Found')
 })
 
-//Starting server
 const PORT = process.env.PORT || 5000;
 app.listen(PORT, ()=> console.log(`Server started on port ${PORT}`));

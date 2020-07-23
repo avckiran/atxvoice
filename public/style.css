@@ -1,0 +1,32 @@
+* {
+    font-family: 'Dosis', sans-serif;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+body {
+    background: rgb(131,58,180);
+    background: linear-gradient(0deg, rgba(131,58,180,1) 0%, rgba(253,29,29,1) 21%, rgba(252,176,69,1) 62%, rgba(250,250,250,1) 99%);
+    height: 100vh;
+    margin: 0;
+}
+
+h1 {
+    text-align: center;
+    font-size: 6em;
+    font-weight: 200;
+    color:red;
+}
+
+.emoji {
+    font-size: 100px;
+    text-align: center;
+}
+
+.lead-text {
+    font-size: 2em;
+    text-align: center;
+    color: white;
+    padding: 15px;
+    font-weight: 600;
+}
